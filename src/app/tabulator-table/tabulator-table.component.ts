@@ -10,14 +10,13 @@ import { Button } from 'protractor';
 })
 export class TabulatorTableComponent implements OnChanges {
 
-
+  @Input() indicator : string = "";
   @Input() tableData: any[] = [];
   @Input() columnNames: any[] = [];
   @Input() height: string = '311px';
   // list properties you want to set per implementation here...
 
   tab = document.createElement('div');
-  button = document.getElementById("testButton");
   table = null;
   
   ngOnChanges(changes: SimpleChanges): void {
@@ -30,17 +29,13 @@ export class TabulatorTableComponent implements OnChanges {
       reactiveData:true, //enable data reactivity
       columns: this.columnNames,
       layout: 'fitData',
-      height: this.height,
-      footerElement: this.button
+      height: this.height
     });
     document.getElementById('my-tabular-table').appendChild(this.tab);
   }
-  addItem() : void {
-    this.table.addData([{}],true);
-    // this.table.clearData();
-  }
-  addEroge() {
-    // <span (click)="addEroge()">[Add Item]</span> // table.addData([{id:1, name:"bob", gender:"male"}, {id:2, name:"Jenny", gender:"female"}], true);
+
+  confirmItem() : void {
+    console.log('item updated');
   }
   constructor() { }
 

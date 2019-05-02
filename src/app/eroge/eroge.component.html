@@ -1,5 +1,6 @@
 <div> 
-eroge database
-<app-tabulator-table [tableData]="erogeData" [columnNames]="columns"></app-tabulator-table>
+eroge database <span (click)="addEroge()">[Add Item]</span>
+<app-tabulator-table [tableData]="erogeData" [columnNames]="columns" [indicator]="indicator"></app-tabulator-table>
+<app-item-info [indicator]="indicator" [action]="action" *ngIf="action" (serverEvent)="processResult($event)"></app-item-info>
 </div>
 
