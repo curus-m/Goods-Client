@@ -21,5 +21,7 @@ export class ErogeService {
   getEroge(): Observable<any> {
     return this.http.get(erogeServerURL,httpOptions);
   }
-
+  addEroge(eroge) : Observable<any> {
+    return this.http.post(erogeServerURL,httpOptions);
+  }
 }
