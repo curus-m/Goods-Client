@@ -1,0 +1,10 @@
+<p>
+  Dakimakura Page(仮)
+</p>
+<div *ngIf="dakiData">
+  <div *ngFor="let daki of dakiData; index as i;">
+    <span>{{daki.title}}</span> 
+    <span>{{daki.brand}}</span>
+    <span>{{daki.price}}</span>
+  </div>
+</div>

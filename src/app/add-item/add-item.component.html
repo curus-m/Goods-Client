@@ -1,0 +1,24 @@
+<div>
+  <h3> {{indicator}}Info: </h3>
+  <form #itemInfo="ngForm">
+  <div>
+    <label>GID</label><input type="text" name="gid" [(ngModel)] ="item.gid" *ngIf="indicator==eroge">
+  </div>
+  <div>
+    <label>제목</label><input type="text" name="title" [(ngModel)]="item.title">
+  </div>
+  <div>
+    <label>브랜드</label><input type="text" name="brand" [(ngModel)] ="item.brand">
+  </div>
+  <div>
+    <label>가격</label><input type="text" name="price" [(ngModel)] ="item.price">  
+  </div>
+  <div>
+    <label>발매일 </label>
+    <!-- <ngb-datepicker #d></ngb-datepicker> -->
+    <input class="form-control" placeholder="yyyy-mm-dd"
+    name="releaseDate" [(ngModel)]="item.releaseDate" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+  </div>
+  </form>
+  <button (click)="addItem()">전송</button>
+</div>

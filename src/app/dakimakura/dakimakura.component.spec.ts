@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TabulatorTableComponent } from './tabulator-table.component';
+import { DakimakuraComponent } from './dakimakura.component';
 
-describe('TabulatorTableComponent', () => {
-  let component: TabulatorTableComponent;
-  let fixture: ComponentFixture<TabulatorTableComponent>;
+describe('DakimakuraComponent', () => {
+  let component: DakimakuraComponent;
+  let fixture: ComponentFixture<DakimakuraComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TabulatorTableComponent ]
+      declarations: [ DakimakuraComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TabulatorTableComponent);
+    fixture = TestBed.createComponent(DakimakuraComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

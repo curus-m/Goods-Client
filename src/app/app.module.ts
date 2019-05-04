@@ -9,10 +9,13 @@ import { GoodsService } from './services/goods.service';
 import { MakuraComponent } from './makura/makura.component';
 import { TapestryComponent } from './tapestry/tapestry.component';
 import { HeaderComponent } from './header/header.component';
-import { TabulatorTableComponent } from './tabulator-table/tabulator-table.component';
 import { ItemInfoComponent } from './item-info/item-info.component';
 import { MainComponent } from './main/main.component';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Tabulator } from 'tabulator-tables';
+import { AddItemComponent } from './add-item/add-item.component';
+import { DakimakuraComponent } from './dakimakura/dakimakura.component';
 
 @NgModule({
   declarations: [
@@ -21,18 +24,21 @@ import { RouterModule } from '@angular/router';
     MakuraComponent,
     TapestryComponent,
     HeaderComponent,
-    TabulatorTableComponent,
     ItemInfoComponent,
-    MainComponent
+    MainComponent,
+    AddItemComponent,
+    DakimakuraComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgbModule,
     RouterModule.forRoot([
       { path: '', component: MainComponent },
       { path: 'eroge', component: ErogeComponent },
+      { path: 'dakimakura' , component: DakimakuraComponent}
     ])
   ],
   providers: [ GoodsService ],
