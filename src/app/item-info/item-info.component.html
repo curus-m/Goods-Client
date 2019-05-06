@@ -1,4 +1,6 @@
-<div *ngIf="goods">{{goods.title}} /
-{{goods.price}} /
-{{goods.releaseDate}}
+<div *ngIf="goods">
+    <div>제목 : {{goods.title}}</div>
+    <div>제작사 : {{goods.brand}}</div> 
+    <div>가격 : {{goods.price}}</div>
+    <div>발매일 : {{goods.releaseDate}} </div>
 </div>

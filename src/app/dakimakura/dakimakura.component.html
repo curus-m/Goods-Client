@@ -1,10 +1,6 @@
 <p>
-  Dakimakura Page(仮)
+  Dakimakura Page(仮) <span (click)="addDakimakura()">[Add Item]</span>
 </p>
-<div *ngIf="dakiData">
-  <div *ngFor="let daki of dakiData; index as i;">
-    <span>{{daki.title}}</span> 
-    <span>{{daki.brand}}</span>
-    <span>{{daki.price}}</span>
-  </div>
-</div>
+<div id="dakiTable"></div>
+<app-add-item [indicator]="addItem" (itemInfoEvent)="processItemResult($event)"></app-add-item>
+<app-item-info [goods]="this.selectedGoods"></app-item-info>

@@ -3,8 +3,7 @@ import { GoodsService } from '../services/goods.service';
 import { Consts } from '../services/consts';
 import { ItemInfoComponent } from '../item-info/item-info.component';
 import Tabulator from 'tabulator-tables';
-import { Goods } from '../item/Goods';
-import { Eroge } from '../item/Eroge';
+
 @Component({
   providers:[ ItemInfoComponent ],
   selector: 'app-eroge',
@@ -13,40 +12,39 @@ import { Eroge } from '../item/Eroge';
 })
 export class ErogeComponent implements OnInit, OnChanges {
   indicator = Consts.Goods.Eroge;
-  action = "";
+  addItem : string = "";
   erogeData = [];
   tab = document.createElement('div');
   table = null;
-  selectedItem : Eroge = new Eroge();
+  selectedGoods = null;
   columns = [
     {title:"Gid", field:"gid", align:"center", width:100,},
-    {title:"Title", field:"title", sorter:"string", width:200,  align:"center"},
-    {title:"Brand", field:"brand", sorter:"string", align:"center"},
-    {title:"Price", field:"price", sorter:"string", align:"center"},
-    {title:"Release Date", field:"releaseDate", sorter:"date", align:"center"}
+    {title:"제목", field:"title", sorter:"string", width:200,  align:"center"},
+    {title:"브랜드", field:"brand", sorter:"string", align:"center"},
+    {title:"가격", field:"price", sorter:"string", align:"center"},
+    {title:"발매일", field:"releaseDate", sorter:"date", align:"center"}
   ];
-  // @ViewChild(ItemInfoComponent) itemInfo :  QueryList<ItemInfoComponent>;
-
-  constructor(private service : GoodsService) { }
   
-  ngAfterViewInit() {
-    console.log('Values on ngAfterViewInit():');
-   
-  }  
+  constructor(private service : GoodsService) { }
+    
   ngOnInit() {
     this.getEroge();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.drawTable();
+    this.drawTable();  
   }
   drawTable(): void {
+    var self = this;
     this.table = new Tabulator(this.tab, {
       data: this.erogeData,
       reactiveData:true, //enable data reactivity
       columns: this.columns,
       layout: 'fitColumns',
       height: '400px',
-      rowClick: this.showItemInfo
+      rowClick: function (e, selectedRow) {
+        let selectedGoods = selectedRow.getData();
+        self.selectedGoods = selectedGoods;
+      }
     });
     document.getElementById('erogeTable').appendChild(this.tab);
   }  
@@ -66,11 +64,6 @@ export class ErogeComponent implements OnInit, OnChanges {
     })
   }
   addEroge() {
-    this.action = Consts.Action.add;
-  }
-  showItemInfo(e, selectedRow) : void {
-    console.log(`row info: ${selectedRow}`);
-    this.selectedItem = selectedRow.getData();
-    // _row.data;
+    this.addItem = this.indicator;
   }
 }

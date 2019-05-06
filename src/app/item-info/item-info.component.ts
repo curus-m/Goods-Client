@@ -10,10 +10,11 @@ import { GoodsService } from '../services/goods.service';
 })
 export class ItemInfoComponent implements OnInit {
   
-  @Input() goods : Goods = new Goods();
-  ngOnInit() {
+  constructor() {
     
   }
-  
-  
+  @Input() goods : Goods;
+  ngOnInit() {
+    
+  }  
 }

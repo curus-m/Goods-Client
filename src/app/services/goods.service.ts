@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Consts } from './consts';
 import { Eroge } from '../item/Eroge';
+import { Dakimakura } from '../item/Dakimakura';
 
 
 const httpOptions = {
@@ -45,12 +46,15 @@ export class GoodsService {
       case Consts.Goods.Eroge:
         return this.addEroge(item);
       case Consts.Goods.Dakimakura:
-        // return this.addEroge(item);
-        return;
+        return this.addDakimakura(item);
+        
     }
   }
   addEroge(item: Eroge) : Observable<any> {
     return this.http.post(erogeServerURL,item,httpOptions);
+  }
+  addDakimakura(item: Dakimakura) : Observable<any> {
+    return this.http.post(dakimakuraServerURL,item,httpOptions);
   }
   dateMaker(obj : any) : string {
     let date = `${obj.year}-${obj.month}-${obj.day}`;

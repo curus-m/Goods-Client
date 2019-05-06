@@ -1,7 +1,7 @@
-<div>
+<div *ngIf="indicator">
   <h3> {{indicator}}Info: </h3>
   <form #itemInfo="ngForm">
-  <div>
+  <div *ngIf="item.gid">
     <label>GID</label><input type="text" name="gid" [(ngModel)] ="item.gid" *ngIf="indicator==eroge">
   </div>
   <div>

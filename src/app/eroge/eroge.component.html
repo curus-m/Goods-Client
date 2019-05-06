@@ -2,7 +2,5 @@
 eroge database <span (click)="addEroge()">[Add Item]</span>
 </div>
 <div id="erogeTable"></div>
-<app-add-item [indicator]="indicator" *ngIf="indicator" (itemInfoEvent)="processItemResult($event)"></app-add-item>
-<app-item-info *ngIf="selectedItem" [goods]="selectedItem"></app-item-info><!-- <div *ngIf="selectedItem">
-    {{selectedItem.title}} / {{selectedItem.price}}
-</div> -->
+<app-add-item [indicator]="addItem" (itemInfoEvent)="processItemResult($event)"></app-add-item>
+<app-item-info [goods]="this.selectedGoods"></app-item-info>
