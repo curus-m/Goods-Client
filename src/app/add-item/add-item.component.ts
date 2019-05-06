@@ -13,10 +13,22 @@ export class AddItemComponent implements OnInit {
   @Input() indicator : string = '';
   @Output() itemInfoEvent: EventEmitter<Object> = new EventEmitter<Object>();
   eroge = Consts.Goods.Eroge;
+  dakimakura = Consts.Goods.Dakimakura;
+  materials = Consts.Material;
+  // materials.find((item) => item.no == materialNum);
   item = new Goods();
   constructor(private service : GoodsService) { }
   
   ngOnInit() {
+    
+  }
+  get title() :string {
+    switch(this.indicator) {
+      case Consts.Goods.Eroge:
+        return '타이틀';
+      case Consts.Goods.Dakimakura:
+        return '캐릭터';
+    }
     
   }
   addItem(): void {

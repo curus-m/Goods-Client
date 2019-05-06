@@ -47,7 +47,6 @@ export class GoodsService {
         return this.addEroge(item);
       case Consts.Goods.Dakimakura:
         return this.addDakimakura(item);
-        
     }
   }
   addEroge(item: Eroge) : Observable<any> {
@@ -55,6 +54,20 @@ export class GoodsService {
   }
   addDakimakura(item: Dakimakura) : Observable<any> {
     return this.http.post(dakimakuraServerURL,item,httpOptions);
+  }
+  deleteItem(indicator, item) :Observable<any> {
+    switch(indicator){
+      case Consts.Goods.Eroge:
+        return this.deleteEroge(item);
+      case Consts.Goods.Dakimakura:
+        return this.deleteDakimakura(item);
+    }
+  }
+  deleteEroge(no: number) : Observable<any> {
+    return this.http.delete(erogeServerURL+`${no}`,httpOptions);
+  }
+  deleteDakimakura(no: number) : Observable<any> {
+    return this.http.delete(dakimakuraServerURL+`${no}`,httpOptions);
   }
   dateMaker(obj : any) : string {
     let date = `${obj.year}-${obj.month}-${obj.day}`;

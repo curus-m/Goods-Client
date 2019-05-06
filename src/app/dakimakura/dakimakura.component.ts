@@ -16,13 +16,6 @@ export class DakimakuraComponent implements OnInit, OnChanges {
   tab = document.createElement('div');
   table = null;
   selectedGoods = null;
-  columns = [
-    {title:"캐릭터", field:"title", sorter:"string", width:200,  align:"center"},
-    {title:"제작", field:"brand", sorter:"string", align:"center"},
-    {title:"가격", field:"price", sorter:"string", align:"center"},
-    {title:"발매일", field:"releaseDate", sorter:"date", align:"center"},
-    {title:"재질", field:"material", sorter:"number", align:"center"}
-  ];
   
   constructor(private service : GoodsService) { }
 
@@ -37,7 +30,24 @@ export class DakimakuraComponent implements OnInit, OnChanges {
     this.table = new Tabulator(this.tab, {
       data: this.dakiData,
       reactiveData:true, //enable data reactivity
-      columns: this.columns,
+      columns: [
+        {title:"캐릭터", field:"title", sorter:"string", width:200,  align:"center"},
+        {title:"제작", field:"brand", sorter:"string", align:"center"},
+        {title:"가격", field:"price", sorter:"string", align:"center"},
+        {title:"발매일", field:"releaseDate", sorter:"date", align:"center"},
+        {title:"재질", field:"material", sorter:"number", align:"center", formatter: function(cell, formatterParams,  onRendered){
+          let materialNum = cell.getValue();
+          let materials = Consts.Material;
+          materials.find((item) => item.no == materialNum);
+          return materials.find((item) => item.no == materialNum).value;
+        }},
+        {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
+          if(confirm('are you sure?')) {
+            self.deleteDakimakura(cell.getData().no);
+            self.selectedGoods = null; 
+          }
+        }}
+      ],
       layout: 'fitColumns',
       height: '400px',
       rowClick: function (e, selectedRow) {
@@ -64,6 +74,13 @@ export class DakimakuraComponent implements OnInit, OnChanges {
   }
   addDakimakura() : void {
     this.addItem = this.indicator;
+  }
+  deleteDakimakura(no : number) {
+    this.service.deleteItem(this.indicator, no).subscribe((res)=>{
+      this.getDakimakura();
+    }, (err) => {
+      this.dakiData = err;
+    });
   }
 
 }

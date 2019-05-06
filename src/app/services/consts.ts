@@ -12,3 +12,10 @@ export namespace Consts.Action {
     export const view : string  = "View";
 }
 
+export namespace Consts {
+    export const Material = [   
+        { no: 0, value : "2wayトリコット"},
+        { no: 1, value : "ライクトロン"}, 
+        { no: 2, value : "アクアプレミア"}
+    ];
+} 

@@ -17,13 +17,6 @@ export class ErogeComponent implements OnInit, OnChanges {
   tab = document.createElement('div');
   table = null;
   selectedGoods = null;
-  columns = [
-    {title:"Gid", field:"gid", align:"center", width:100,},
-    {title:"제목", field:"title", sorter:"string", width:200,  align:"center"},
-    {title:"브랜드", field:"brand", sorter:"string", align:"center"},
-    {title:"가격", field:"price", sorter:"string", align:"center"},
-    {title:"발매일", field:"releaseDate", sorter:"date", align:"center"}
-  ];
   
   constructor(private service : GoodsService) { }
     
@@ -38,7 +31,19 @@ export class ErogeComponent implements OnInit, OnChanges {
     this.table = new Tabulator(this.tab, {
       data: this.erogeData,
       reactiveData:true, //enable data reactivity
-      columns: this.columns,
+      columns:[
+        {title:"Gid", field:"gid", align:"center", width:100},
+        {title:"제목", field:"title", sorter:"string", width:200,  align:"center"},
+        {title:"브랜드", field:"brand", sorter:"string", align:"center"},
+        {title:"가격", field:"price", sorter:"string", align:"center"},
+        {title:"발매일", field:"releaseDate", sorter:"date", align:"center"},
+        {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
+            if(confirm('are you sure?')) {
+              self.deleteEroge(cell.getData().no);
+              self.selectedGoods = null;
+            }
+          }
+        }],
       layout: 'fitColumns',
       height: '400px',
       rowClick: function (e, selectedRow) {
@@ -65,5 +70,13 @@ export class ErogeComponent implements OnInit, OnChanges {
   }
   addEroge() {
     this.addItem = this.indicator;
+  }
+  deleteEroge(no: number) {
+    this.service.deleteItem(this.indicator, no).subscribe((res)=>{
+      this.getEroge();
+    }, (err) => {
+      this.erogeData = err;
+    });
+
   }
 }

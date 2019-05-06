@@ -1,23 +1,56 @@
 <div *ngIf="indicator">
-  <h3> {{indicator}}Info: </h3>
+  <h3>굿즈({{indicator}}) 추가</h3>
   <form #itemInfo="ngForm">
-  <div *ngIf="item.gid">
-    <label>GID</label><input type="text" name="gid" [(ngModel)] ="item.gid" *ngIf="indicator==eroge">
+  <div *ngIf="indicator==eroge">
+      <div class="columnTitle">
+        <label>GID</label>
+      </div>
+      <div class="columnBody">
+        <input type="text" name="gid" [(ngModel)] ="item.gid">
+      </div>
   </div>
   <div>
-    <label>제목</label><input type="text" name="title" [(ngModel)]="item.title">
+    <div class="columnTitle">
+      <label>{{title}}</label>
+    </div>
+    <div class="columnBody">
+      <input type="text" name="title" [(ngModel)]="item.title">
+    </div>
   </div>
   <div>
-    <label>브랜드</label><input type="text" name="brand" [(ngModel)] ="item.brand">
+    <div class="columnTitle">
+      <label>브랜드</label>
+    </div>
+    <div class="columnBody">
+      <input type="text" name="brand" [(ngModel)] ="item.brand">
+    </div>
   </div>
   <div>
-    <label>가격</label><input type="text" name="price" [(ngModel)] ="item.price">  
+    <div class="columnTitle">
+      <label>가격</label>
+    </div>
+    <div class="columnBody">
+      <input type="text" name="price" [(ngModel)] ="item.price">  
+    </div>
   </div>
   <div>
-    <label>발매일 </label>
-    <!-- <ngb-datepicker #d></ngb-datepicker> -->
-    <input class="form-control" placeholder="yyyy-mm-dd"
-    name="releaseDate" [(ngModel)]="item.releaseDate" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+    <div class="columnTitle">
+      <label>발매일</label>
+    </div>
+    <div class="columnBody">
+      <input class="form-control" placeholder="yyyy-mm-dd"
+      name="releaseDate" [(ngModel)]="item.releaseDate" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+    </div>
+  </div>
+  <div *ngIf="indicator==dakimakura">
+      <div class="columnTitle">
+          <label>재질</label>
+        </div>
+        <div class="columnBody">
+          <select [(ngModel)]="item.material">
+            <option *ngFor="let material of materials"  [ngValue]="material.no">{{material.value}}</option>
+          </select>
+        </div>
   </div>
   </form>
   <button (click)="addItem()">전송</button>
