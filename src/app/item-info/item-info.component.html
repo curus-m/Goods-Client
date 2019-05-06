@@ -1,6 +1,7 @@
 <div *ngIf="goods">
-    <div>제목 : {{goods.title}}</div>
-    <div>제작사 : {{goods.brand}}</div> 
+    {{indicator}} 정보
+    <h3>{{goods.title}}</h3>
+    <div>{{brand}}: {{goods.brand}}</div> 
     <div>가격 : {{goods.price}}</div>
     <div>발매일 : {{goods.releaseDate}} </div>
 </div>

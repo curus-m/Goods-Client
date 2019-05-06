@@ -29,7 +29,14 @@ export class AddItemComponent implements OnInit {
       case Consts.Goods.Dakimakura:
         return '캐릭터';
     }
-    
+  }
+  get brand() : string {
+    switch(this.indicator) {
+      case Consts.Goods.Eroge:
+        return '브랜드';
+      case Consts.Goods.Dakimakura:
+        return '제작사/서클';
+    }
   }
   addItem(): void {
     this.item.releaseDate = new Date(this.service.dateMaker(this.item.releaseDate));

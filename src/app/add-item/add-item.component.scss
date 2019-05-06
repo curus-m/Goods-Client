@@ -1,3 +1,7 @@
+:host {
+    display: inline-block;
+    margin-left : 2%;
+}
 .columnTitle {
     display: inline-block;
     width: 100px;
@@ -5,4 +9,7 @@
 .columnBody {
     display: inline-block;
     width: 200px;
+}
+.itemRow {
+    width: 365px;
 }

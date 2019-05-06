@@ -13,6 +13,7 @@ import Tabulator from 'tabulator-tables';
 export class ErogeComponent implements OnInit, OnChanges {
   indicator = Consts.Goods.Eroge;
   addItem : string = "";
+  showItem : string = "";
   erogeData = [];
   tab = document.createElement('div');
   table = null;
@@ -49,6 +50,7 @@ export class ErogeComponent implements OnInit, OnChanges {
       rowClick: function (e, selectedRow) {
         let selectedGoods = selectedRow.getData();
         self.selectedGoods = selectedGoods;
+        self.showItem = self.indicator;
       }
     });
     document.getElementById('erogeTable').appendChild(this.tab);

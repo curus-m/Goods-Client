@@ -1,57 +1,57 @@
 <div *ngIf="indicator">
   <h3>굿즈({{indicator}}) 추가</h3>
   <form #itemInfo="ngForm">
-  <div *ngIf="indicator==eroge">
+  <div *ngIf="indicator==eroge" class="itemRow">
       <div class="columnTitle">
         <label>GID</label>
       </div>
       <div class="columnBody">
-        <input type="text" name="gid" [(ngModel)] ="item.gid">
+        <input type="text" name="gid" [(ngModel)] ="item.gid" class="form-control">
       </div>
   </div>
-  <div>
+  <div class="itemRow">
     <div class="columnTitle">
       <label>{{title}}</label>
     </div>
     <div class="columnBody">
-      <input type="text" name="title" [(ngModel)]="item.title">
+      <input type="text" name="title" [(ngModel)]="item.title" class="form-control">
     </div>
   </div>
-  <div>
+  <div class="itemRow">
     <div class="columnTitle">
-      <label>브랜드</label>
+      <label>{{brand}}</label>
     </div>
     <div class="columnBody">
-      <input type="text" name="brand" [(ngModel)] ="item.brand">
+      <input type="text" name="brand" [(ngModel)] ="item.brand" class="form-control">
     </div>
   </div>
-  <div>
+  <div class="itemRow">
     <div class="columnTitle">
       <label>가격</label>
     </div>
     <div class="columnBody">
-      <input type="text" name="price" [(ngModel)] ="item.price">  
+      <input type="text" name="price" [(ngModel)] ="item.price" class="form-control">  
     </div>
   </div>
-  <div>
+  <div class="itemRow">
     <div class="columnTitle">
       <label>발매일</label>
     </div>
     <div class="columnBody">
       <input class="form-control" placeholder="yyyy-mm-dd"
-      name="releaseDate" [(ngModel)]="item.releaseDate" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+      name="releaseDate" [(ngModel)]="item.releaseDate" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" class="form-control">
     </div>
   </div>
-  <div *ngIf="indicator==dakimakura">
+  <div *ngIf="indicator==dakimakura" class="itemRow">
       <div class="columnTitle">
           <label>재질</label>
         </div>
         <div class="columnBody">
-          <select [(ngModel)]="item.material">
+          <select [(ngModel)]="item.material" class="form-control" name="material">
             <option *ngFor="let material of materials"  [ngValue]="material.no">{{material.value}}</option>
           </select>
         </div>
   </div>
   </form>
-  <button (click)="addItem()">전송</button>
+  <button (click)="addItem()" class="btn btn-primary">전송</button>
 </div>

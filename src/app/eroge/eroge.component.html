@@ -1,6 +1,8 @@
-<div> 
-eroge database <span (click)="addEroge()">[Add Item]</span>
+<div class="pageHeader"> 
+    {{indicator}} database <span (click)="addEroge()">[Add Item]</span>
 </div>
-<div id="erogeTable"></div>
-<app-add-item [indicator]="addItem" (itemInfoEvent)="processItemResult($event)"></app-add-item>
-<app-item-info [goods]="this.selectedGoods"></app-item-info>
+<div class="itemContainer">
+    <div id="erogeTable"></div>
+    <app-add-item [indicator]="addItem" (itemInfoEvent)="processItemResult($event)"></app-add-item>
+</div>
+<app-item-info [goods]="this.selectedGoods" [indicator]="showItem"></app-item-info>

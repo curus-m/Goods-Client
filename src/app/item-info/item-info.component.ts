@@ -10,9 +10,20 @@ import { GoodsService } from '../services/goods.service';
 })
 export class ItemInfoComponent implements OnInit {
   
+  @Input() indicator : string;
   constructor() {
     
   }
+
+  get brand() : string {
+    switch(this.indicator) {
+      case Consts.Goods.Eroge:
+        return '브랜드';
+      case Consts.Goods.Dakimakura:
+        return '제작사/서클';
+    }
+  }
+
   @Input() goods : Goods;
   ngOnInit() {
     
