@@ -38,6 +38,15 @@ export class AddItemComponent implements OnInit {
         return '제작사/서클';
     }
   }
+  get file() : string {
+    switch(this.indicator) {
+      case Consts.Goods.Eroge:
+        return '패키지';
+      case Consts.Goods.Dakimakura:
+      case Consts.Goods.Tapestry:
+        return '이미지';
+    }
+  }
   addItem(): void {
     this.item.releaseDate = new Date(this.service.dateMaker(this.item.releaseDate));
     console.log(this.item);

@@ -3,6 +3,7 @@ import { GoodsService } from '../services/goods.service';
 import { Consts } from '../services/consts';
 import { ItemInfoComponent } from '../item-info/item-info.component';
 import Tabulator from 'tabulator-tables';
+import { Eroge } from '../item/Eroge';
 
 @Component({
   providers:[ ItemInfoComponent ],
@@ -33,10 +34,10 @@ export class ErogeComponent implements OnInit, OnChanges {
       data: this.erogeData,
       reactiveData:true, //enable data reactivity
       columns:[
-        {title:"Gid", field:"gid", align:"center", width:100},
-        {title:"제목", field:"title", sorter:"string", width:200,  align:"center"},
-        {title:"브랜드", field:"brand", sorter:"string", align:"center"},
-        {title:"가격", field:"price", sorter:"string", align:"center"},
+        {title:"Gid", field:"gid", align:"center", width:100, editor:"textarea"},
+        {title:"제목", field:"title", sorter:"string", width:200,  align:"center", editor:"textarea"},
+        {title:"브랜드", field:"brand", sorter:"string", align:"center", editor:"textarea"},
+        {title:"가격", field:"price", sorter:"string", align:"center", editor:"number"},
         {title:"발매일", field:"releaseDate", sorter:"date", align:"center"},
         {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
             if(confirm('are you sure?')) {
@@ -51,6 +52,10 @@ export class ErogeComponent implements OnInit, OnChanges {
         let selectedGoods = selectedRow.getData();
         self.selectedGoods = selectedGoods;
         self.showItem = self.indicator;
+      },
+      cellEdited:function(cell){
+        let row = cell.getRow().getData();;
+        self.editEroge(row);
       }
     });
     document.getElementById('erogeTable').appendChild(this.tab);
@@ -72,6 +77,14 @@ export class ErogeComponent implements OnInit, OnChanges {
   }
   addEroge() {
     this.addItem = this.indicator;
+  }
+  editEroge(eroge : Eroge) {
+    console.log(`title: ${eroge.title}`);
+    this.service.editItem(this.indicator, eroge).subscribe((res)=>{
+      this.getEroge();
+    }, (err) => {
+      this.erogeData = err;
+    });
   }
   deleteEroge(no: number) {
     this.service.deleteItem(this.indicator, no).subscribe((res)=>{

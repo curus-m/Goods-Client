@@ -55,6 +55,14 @@ export class GoodsService {
   addDakimakura(item: Dakimakura) : Observable<any> {
     return this.http.post(dakimakuraServerURL,item,httpOptions);
   }
+  editItem(indicator, item) : Observable<any> {
+    switch(indicator){
+      case Consts.Goods.Eroge:
+        return this.editEroge(item);
+      case Consts.Goods.Dakimakura:
+        return this.editDakimakura(item);
+    }
+  }
   deleteItem(indicator, item) :Observable<any> {
     switch(indicator){
       case Consts.Goods.Eroge:
@@ -62,6 +70,13 @@ export class GoodsService {
       case Consts.Goods.Dakimakura:
         return this.deleteDakimakura(item);
     }
+  }
+  editEroge(eroge : Eroge) : Observable<any> {
+    return this.http.put(erogeServerURL,eroge,httpOptions);
+    // (erogeServerURL+`${no}`,httpOptions);
+  }
+  editDakimakura(dakimakura: Dakimakura) : Observable<any> {
+    return this.http.put(dakimakuraServerURL,dakimakura,httpOptions);
   }
   deleteEroge(no: number) : Observable<any> {
     return this.http.delete(erogeServerURL+`${no}`,httpOptions);

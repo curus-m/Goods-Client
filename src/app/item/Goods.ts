@@ -6,6 +6,7 @@ export class Goods {
 	purchase : number;
 	gid: string;
 	no : number;
+	image : string;
 	constructor(
     ){}
 }

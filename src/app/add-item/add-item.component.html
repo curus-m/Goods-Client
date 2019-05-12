@@ -52,6 +52,16 @@
           </select>
         </div>
   </div>
+  <div class="itemRow">
+    <div class="columnTitle">
+        <label>{{file}}</label>
+      </div>
+      <div class="columnBody">
+        <select [(ngModel)]="item.material" class="form-control" name="material">
+          <option *ngFor="let material of materials"  [ngValue]="material.no">{{material.value}}</option>
+        </select>
+      </div>
+</div>
   </form>
   <button (click)="addItem()" class="btn btn-primary">전송</button>
 </div>
