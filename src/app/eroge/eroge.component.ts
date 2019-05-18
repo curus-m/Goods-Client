@@ -19,7 +19,8 @@ export class ErogeComponent implements OnInit, OnChanges {
   tab = document.createElement('div');
   table = null;
   selectedGoods = null;
-  
+  error = '';
+
   constructor(private service : GoodsService) { }
     
   ngOnInit() {
@@ -54,7 +55,7 @@ export class ErogeComponent implements OnInit, OnChanges {
         self.showItem = self.indicator;
       },
       cellEdited:function(cell){
-        let row = cell.getRow().getData();;
+        let row = cell.getRow().getData();
         self.editEroge(row);
       }
     });
@@ -64,6 +65,9 @@ export class ErogeComponent implements OnInit, OnChanges {
     if($event.result == 1) {
       console.log('job successed');
       this.getEroge();
+    }
+    else {
+      this.error = $event.errorMessage;
     }
   }
   getEroge() {

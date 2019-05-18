@@ -1,0 +1,7 @@
+
+  <form method="POST" enctype="multipart/form-data" [formGroup] = "uploadForm" (ngSubmit)="onSubmit()">
+    
+      <input type="file" name="file" (change)="onFileSelect($event)"/>
+      <button type="submit">upload</button>
+    
+  </form>

@@ -57,11 +57,11 @@
         <label>{{file}}</label>
       </div>
       <div class="columnBody">
-        <select [(ngModel)]="item.material" class="form-control" name="material">
-          <option *ngFor="let material of materials"  [ngValue]="material.no">{{material.value}}</option>
-        </select>
+        <input type="file" name="file" (change)="onFileSelect($event)">
       </div>
-</div>
+  </div>
   </form>
-  <button (click)="addItem()" class="btn btn-primary">전송</button>
+  <div class="itemRow">
+  <button id="submit" (click)="addItem()" class="btn btn-primary">전송</button>
+  </div>
 </div>

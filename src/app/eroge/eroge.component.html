@@ -6,3 +6,4 @@
     <app-add-item [indicator]="addItem" (itemInfoEvent)="processItemResult($event)"></app-add-item>
 </div>
 <app-item-info [goods]="this.selectedGoods" [indicator]="showItem"></app-item-info>
+<p *ngIf="error">Error: {{error}}</p>
