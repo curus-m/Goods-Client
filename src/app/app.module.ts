@@ -16,7 +16,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Tabulator } from 'tabulator-tables';
 import { AddItemComponent } from './add-item/add-item.component';
 import { DakimakuraComponent } from './dakimakura/dakimakura.component';
-import { UploadTestComponent } from './upload-test/upload-test.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +27,7 @@ import { UploadTestComponent } from './upload-test/upload-test.component';
     ItemInfoComponent,
     MainComponent,
     AddItemComponent,
-    DakimakuraComponent,
-    UploadTestComponent
+    DakimakuraComponent
   ],
   imports: [
     BrowserModule,
@@ -41,8 +39,7 @@ import { UploadTestComponent } from './upload-test/upload-test.component';
     RouterModule.forRoot([
       { path: '', component: MainComponent },
       { path: 'eroge', component: ErogeComponent },
-      { path: 'dakimakura' , component: DakimakuraComponent},
-      { path: 'upload' , component: UploadTestComponent}
+      { path: 'dakimakura' , component: DakimakuraComponent}
     ])
   ],
   providers: [ GoodsService ],

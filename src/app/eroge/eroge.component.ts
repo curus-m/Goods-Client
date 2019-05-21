@@ -20,7 +20,8 @@ export class ErogeComponent implements OnInit, OnChanges {
   table = null;
   selectedGoods = null;
   error = '';
-
+  imageURL = "http://localhost:8080/resources/eroge/";
+  noImage = Consts.noImage;
   constructor(private service : GoodsService) { }
     
   ngOnInit() {
@@ -40,6 +41,15 @@ export class ErogeComponent implements OnInit, OnChanges {
         {title:"브랜드", field:"brand", sorter:"string", align:"center", editor:"textarea"},
         {title:"가격", field:"price", sorter:"string", align:"center", editor:"number"},
         {title:"발매일", field:"releaseDate", sorter:"date", align:"center"},
+        {title: "이미지", field: "image", width: 80, align:"center" ,cellClick:function(e,cell){
+
+          }, formatter: function(cell, formatterParams, onRendered){
+            let link = cell.getData().image;
+            let view = link == self.noImage ? '[Add]' : '[Edit]';
+            let button = `<a href=""></a>`
+            //  `<a href="${self.imageURL}${link.image}">${view}</a>`;
+            return view;
+        }},
         {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
             if(confirm('are you sure?')) {
               self.deleteEroge(cell.getData().no);
@@ -71,6 +81,7 @@ export class ErogeComponent implements OnInit, OnChanges {
     }
   }
   getEroge() {
+    this.error ="";
     this.service.getItem(this.indicator).subscribe((res)=>{
       this.erogeData = res;
       this.drawTable();
@@ -80,7 +91,12 @@ export class ErogeComponent implements OnInit, OnChanges {
     })
   }
   addEroge() {
-    this.addItem = this.indicator;
+    if(!this.addItem) {
+      this.addItem = this.indicator;
+    }
+    else {
+      this.addItem = "";
+    }
   }
   editEroge(eroge : Eroge) {
     console.log(`title: ${eroge.title}`);

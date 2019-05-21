@@ -18,4 +18,5 @@ export namespace Consts {
         { no: 1, value : "ライクトロン"}, 
         { no: 2, value : "アクアプレミア"}
     ];
+    export const noImage = "noimage.jpg";
 } 

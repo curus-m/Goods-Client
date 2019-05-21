@@ -14,8 +14,8 @@ export class DakimakuraComponent implements OnInit, OnChanges {
 
   indicator : string = Consts.Goods.Dakimakura;
   dakiData = [];
-  addItem : string = "";
-  showItem : string = "";
+  addItem; showItem; preview; noImage : string = "";
+  
   tab = document.createElement('div');
   table = null;
   selectedGoods = null;
@@ -50,12 +50,12 @@ export class DakimakuraComponent implements OnInit, OnChanges {
           return materials.find((item) => item.no == materialNum).value;
         }},
         {title: "이미지", field: "image", width: 80, align:"center" ,cellClick:function(e,cell){
-
+          self.preview = self.imageURL+cell.getValue()
           }, formatter: function(cell, formatterParams, onRendered){
-            let link = cell.getData();
-            let view= '[View]'
-            let button = `<a href="${self.imageURL}${link.image}">${view}</a>`;
-            return button;
+            let link = cell.getData().image;
+            let view = link == self.noImage ? '[Add]' : '[Edit]';
+            let button = `<a href=""></a>`
+            return view;
         }},
         {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
           if(confirm('are you sure?')) {

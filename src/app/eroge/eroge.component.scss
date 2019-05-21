@@ -1,4 +1,8 @@
 #erogeTable {
-    width: 690px;
+    width: 750px;
     display: inline-block;
+}
+:host {
+    position: relative;
+    left: 1%;
 }
