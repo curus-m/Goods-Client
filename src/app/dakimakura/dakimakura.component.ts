@@ -14,8 +14,9 @@ export class DakimakuraComponent implements OnInit, OnChanges {
 
   indicator : string = Consts.Goods.Dakimakura;
   dakiData = [];
-  addItem; showItem; preview; noImage : string = "";
-  
+  addItem; showItem; preview : string;
+  noImage : string = "noimage.jpg";
+  action :string = '';
   tab = document.createElement('div');
   table = null;
   selectedGoods = null;
@@ -49,13 +50,15 @@ export class DakimakuraComponent implements OnInit, OnChanges {
           materials.find((item) => item.no == materialNum);
           return materials.find((item) => item.no == materialNum).value;
         }},
-        {title: "이미지", field: "image", width: 80, align:"center" ,cellClick:function(e,cell){
-          self.preview = self.imageURL+cell.getValue()
+        {title: "이미지", field: "image", width: 80, align:"center" , cellClick: function(e, cell) {
+          let link = cell.getData().image;
+          let text = link == self.noImage ? Consts.Action.add : Consts.Action.edit;
+          self.editImage(text);
+          self.addItem = "";
           }, formatter: function(cell, formatterParams, onRendered){
             let link = cell.getData().image;
-            let view = link == self.noImage ? '[Add]' : '[Edit]';
-            let button = `<a href=""></a>`
-            return view;
+            let text = link == self.noImage ? Consts.Action.add : Consts.Action.edit;
+            return `[${text}]`;
         }},
         {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
           if(confirm('are you sure?')) {
@@ -68,6 +71,7 @@ export class DakimakuraComponent implements OnInit, OnChanges {
       height: '400px',
       rowClick: function (e, selectedRow) {
         let selectedGoods = selectedRow.getData();
+        self.preview = self.imageURL+selectedGoods.image;
         self.selectedGoods = selectedGoods;
         self.showItem = self.indicator;
       },
@@ -102,7 +106,14 @@ export class DakimakuraComponent implements OnInit, OnChanges {
     }
   }
   editDakimakura(dakimakura : Dakimakura) : void {
-    console.log(`item info: ${dakimakura}`);
+    this.service.editItem(this.indicator, dakimakura).subscribe((res)=>{
+      this.getDakimakura();
+    }, (err) => {
+      this.dakiData = err;
+    });
+  }
+  editImage(action : string ) : void {
+    this.action = action;
   }
   deleteDakimakura(no : number) {
     this.service.deleteItem(this.indicator, no).subscribe((res)=>{

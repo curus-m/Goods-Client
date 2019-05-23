@@ -8,13 +8,5 @@ export class Goods {
 	no : number;
 	image : string;
 	constructor(
-	){}
-	toString() {
-		return `{ \"title\": \"${this.title}\", 
-		\"brand\": "${this.brand}\",
-		\"releaseDate\": "${this.releaseDate}\",
-		\"price\": "${this.price}\",
-		\"gid\": "${this.gid}\"		
-		} `;
-	}
+	){}	
 }

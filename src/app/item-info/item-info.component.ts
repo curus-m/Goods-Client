@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Goods } from '../item/Goods';
 import { Consts } from '../services/consts';
 import { GoodsService } from '../services/goods.service';
-
+import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-item-info',
   templateUrl: './item-info.component.html',
@@ -11,8 +11,15 @@ import { GoodsService } from '../services/goods.service';
 export class ItemInfoComponent implements OnInit {
   
   @Input() indicator : string;
-  constructor() {
-    
+  @Input() isEdit : string;
+  @Input() goods : Goods;
+  uploadForm : FormGroup;
+
+  constructor(private service : GoodsService, private formBuilder: FormBuilder ) { }
+  ngOnInit() {
+    this.uploadForm= this.formBuilder.group({
+      file: ['']
+    });
   }
 
   get brand() : string {
@@ -23,9 +30,10 @@ export class ItemInfoComponent implements OnInit {
         return '제작사/서클';
     }
   }
-
-  @Input() goods : Goods;
-  ngOnInit() {
-    
-  }  
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.uploadForm.get('file').setValue(file);
+    }
+  }
 }

@@ -64,4 +64,5 @@
   <div class="itemRow">
   <button id="submit" (click)="addItem()" class="btn btn-primary">전송</button>
   </div>
+  <span *ngIf="errorMsg">{{errorMsg}}</span>
 </div>

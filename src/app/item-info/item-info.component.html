@@ -4,3 +4,11 @@
     <div>가격 : {{goods.price}}</div>
     <div>발매일 : {{goods.releaseDate}} </div>
 </div>
+<div *ngIf="isEdit">
+    <form #itemInfo="ngForm">
+        <div class="header">{{isEdit}} File</div>
+        <div class="columnBody">
+        <input type="file" name="file" (change)="onFileSelect($event)">
+        </div>
+    </form>
+</div>

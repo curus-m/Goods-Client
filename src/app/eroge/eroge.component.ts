@@ -46,9 +46,8 @@ export class ErogeComponent implements OnInit, OnChanges {
           }, formatter: function(cell, formatterParams, onRendered){
             let link = cell.getData().image;
             let view = link == self.noImage ? '[Add]' : '[Edit]';
-            let button = `<a href=""></a>`
-            //  `<a href="${self.imageURL}${link.image}">${view}</a>`;
-            return view;
+            let button = `<span (click)="test()">${view}</span>`
+            return button;
         }},
         {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
             if(confirm('are you sure?')) {
@@ -99,7 +98,6 @@ export class ErogeComponent implements OnInit, OnChanges {
     }
   }
   editEroge(eroge : Eroge) {
-    console.log(`title: ${eroge.title}`);
     this.service.editItem(this.indicator, eroge).subscribe((res)=>{
       this.getEroge();
     }, (err) => {
@@ -113,5 +111,8 @@ export class ErogeComponent implements OnInit, OnChanges {
       this.erogeData = err;
     });
 
+  }
+  test() {
+    console.log('test');
   }
 }

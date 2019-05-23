@@ -3,6 +3,7 @@ import { Goods } from '../item/Goods';
 import { GoodsService } from '../services/goods.service';
 import { Consts } from '../services/consts';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Dakimakura } from '../item/Dakimakura';
 
 @Component({
   selector: 'app-add-item',
@@ -18,10 +19,10 @@ export class AddItemComponent implements OnInit {
   materials = Consts.Material;
   // materials.find((item) => item.no == materialNum);
   item = new Goods();
+  errorMsg: string;
   constructor(private service : GoodsService, private formBuilder: FormBuilder ) { }
   uploadForm : FormGroup
   ngOnInit() {
-    
     this.uploadForm= this.formBuilder.group({
       file: ['']
     });
@@ -55,16 +56,14 @@ export class AddItemComponent implements OnInit {
     this.item.releaseDate = this.service.dateMaker(this.item.releaseDate);
     const formData = new FormData();
     formData.append('file', this.uploadForm.get('file').value);
-    formData.append('eroge', this.item.toString());
+    formData.append('goods', JSON.stringify(this.item));
     // console.log(this.item);
     if(confirm('are you sure?'))
     {
-        // this.service.addItem(this.indicator,this.item).subscribe((res) => {
-          this.service.addItem(this.indicator,formData).subscribe((res) => {
-        // console.log(`result: ${res}`);
+        this.service.addItem(this.indicator,formData).subscribe((res) => {
         this.itemInfoEvent.emit(res);
       }, (err) => {
-
+        this.errorMsg = err;
       });
     }
     else {
