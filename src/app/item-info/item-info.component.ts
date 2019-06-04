@@ -12,8 +12,11 @@ export class ItemInfoComponent implements OnInit {
   
   @Input() indicator : string;
   @Input() isEdit : string;
+  @Input() itemNo: number;
   @Input() goods : Goods;
+  @Output() itemInfoEvent: EventEmitter<Object> = new EventEmitter<Object>();
   uploadForm : FormGroup;
+  errorMsg : string;
 
   constructor(private service : GoodsService, private formBuilder: FormBuilder ) { }
   ngOnInit() {
@@ -36,4 +39,22 @@ export class ItemInfoComponent implements OnInit {
       this.uploadForm.get('file').setValue(file);
     }
   }
+  setImage(): void {
+    const formData = new FormData();
+    formData.append('file', this.uploadForm.get('file').value);
+    formData.append('no', this.itemNo.toString());
+    // console.log(this.item);
+    if(confirm('are you sure?'))
+    {
+        this.service.setImage(this.indicator,formData).subscribe((res) => {
+        this.itemInfoEvent.emit(res);
+      }, (err) => {
+        this.errorMsg = err;
+      });
+    }
+    else {
+      this.itemInfoEvent.emit("job canceled");
+    }
+  }
+
 }

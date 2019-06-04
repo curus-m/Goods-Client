@@ -15,8 +15,8 @@ export class DakimakuraComponent implements OnInit, OnChanges {
   indicator : string = Consts.Goods.Dakimakura;
   dakiData = [];
   addItem; showItem; preview : string;
-  noImage : string = "noimage.jpg";
-  action :string = '';
+  noImage = Consts.noImage;
+  action : string = '';
   tab = document.createElement('div');
   table = null;
   selectedGoods = null;

@@ -15,6 +15,8 @@ export class ErogeComponent implements OnInit, OnChanges {
   indicator = Consts.Goods.Eroge;
   addItem : string = "";
   showItem : string = "";
+  action : string = '';
+  itemNo : number = 0;
   erogeData = [];
   tab = document.createElement('div');
   table = null;
@@ -42,12 +44,15 @@ export class ErogeComponent implements OnInit, OnChanges {
         {title:"가격", field:"price", sorter:"string", align:"center", editor:"number"},
         {title:"발매일", field:"releaseDate", sorter:"date", align:"center"},
         {title: "이미지", field: "image", width: 80, align:"center" ,cellClick:function(e,cell){
-
+          let link = cell.getData().image;
+          let text = link == self.noImage ? Consts.Action.add : Consts.Action.edit;
+          self.editImage(text);
+          self.addItem = "";
+          self.itemNo = cell.getData().no;
           }, formatter: function(cell, formatterParams, onRendered){
             let link = cell.getData().image;
-            let view = link == self.noImage ? '[Add]' : '[Edit]';
-            let button = `<span (click)="test()">${view}</span>`
-            return button;
+            let text = link == self.noImage ? Consts.Action.add : Consts.Action.edit;
+            return `[${text}]`;
         }},
         {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
             if(confirm('are you sure?')) {
@@ -112,7 +117,7 @@ export class ErogeComponent implements OnInit, OnChanges {
     });
 
   }
-  test() {
-    console.log('test');
+  editImage(action : string ) : void {
+    this.action = action;
   }
 }

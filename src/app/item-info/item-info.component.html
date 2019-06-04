@@ -6,9 +6,16 @@
 </div>
 <div *ngIf="isEdit">
     <form #itemInfo="ngForm">
-        <div class="header">{{isEdit}} File</div>
+        <div class="header">{{indicator}} File</div>
         <div class="columnBody">
-        <input type="file" name="file" (change)="onFileSelect($event)">
+            <input type="file" name="file" (change)="onFileSelect($event)">
         </div>
+        <div class="columnBody">
+            <input type="checkbox" id="deleteCheck"><label for="deleteCheck">delete File</label>
+        </div>
+        <div class="columnBody">
+            <button id="submit" (click)="setImage()" class="btn btn-primary">submit</button>
+        </div>
+        
     </form>
 </div>

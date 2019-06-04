@@ -27,6 +27,7 @@ const postHttpOptions = {
 const serverURL = 'http://127.0.0.1:8080/';
 const erogeServerURL = serverURL+Consts.Goods.Eroge+'/';
 const dakimakuraServerURL = serverURL+Consts.Goods.Dakimakura+'/';
+const resourceURL = serverURL + "resources/";
 let result = '';
 
 @Injectable()
@@ -72,7 +73,7 @@ export class GoodsService {
         return this.editDakimakura(item);
     }
   }
-  deleteItem(indicator, item) :Observable<any> {
+  deleteItem(indicator, item) : Observable<any> {
     switch(indicator){
       case Consts.Goods.Eroge:
         return this.deleteEroge(item);
@@ -96,5 +97,9 @@ export class GoodsService {
   dateMaker(obj : any) : string {
     let date = `${obj.year}-${obj.month}-${obj.day}`;
     return date;
+  }
+  setImage(indicator : string ,formData : FormData) : Observable<any>{
+    let url = resourceURL+indicator+"/";
+    return this.http.post(url,formData,getHttpOptions);
   }
 }
