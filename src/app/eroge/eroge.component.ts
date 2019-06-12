@@ -13,9 +13,7 @@ import { Eroge } from '../item/Eroge';
 })
 export class ErogeComponent implements OnInit, OnChanges {
   indicator = Consts.Goods.Eroge;
-  addItem : string = "";
-  showItem : string = "";
-  action : string = '';
+  addItem; showItem; action; preview : string = '';
   itemNo : number = 0;
   erogeData = [];
   tab = document.createElement('div');
@@ -65,6 +63,7 @@ export class ErogeComponent implements OnInit, OnChanges {
       height: '400px',
       rowClick: function (e, selectedRow) {
         let selectedGoods = selectedRow.getData();
+        self.preview = self.imageURL+selectedGoods.image;
         self.selectedGoods = selectedGoods;
         self.showItem = self.indicator;
       },

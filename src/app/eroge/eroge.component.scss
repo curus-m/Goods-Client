@@ -6,3 +6,17 @@
     position: relative;
     left: 1%;
 }
+
+.preview {
+    height: 800px;
+    width: 600px;
+}
+.previewContainer {
+    position: fixed;
+    display: block;
+    right: 10px;
+    top: 40px;
+}
+.itemInfos {
+    display: flex;
+}

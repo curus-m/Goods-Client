@@ -16,7 +16,7 @@ const getHttpOptions = {
 };
 const postHttpOptions = {
   headers: new HttpHeaders({
-    'Contnet-Type': 'multipart/form-data; boundary=Eroge',
+    'Contnet-Type': 'multipart/form-data; boundary=Goods',
     'Authorization': 'my-auth-token',
     'Accept':'*/*',
     'Access-Control-Allow-Origin': '*'
@@ -100,6 +100,6 @@ export class GoodsService {
   }
   setImage(indicator : string ,formData : FormData) : Observable<any>{
     let url = resourceURL+indicator+"/";
-    return this.http.post(url,formData,getHttpOptions);
+    return this.http.put(url,formData,postHttpOptions);
   }
 }

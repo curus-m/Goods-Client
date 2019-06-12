@@ -8,7 +8,7 @@
     <a href="{{preview}}">
       <img *ngIf="preview" src="{{preview}}" class="preview">
     </a>
-  </div>
+</div>
 <div class="itemInfos">
   <app-item-info [goods]="this.selectedGoods" [indicator]="showItem" [isEdit]="action"></app-item-info>
   <app-add-item [indicator]="addItem" (itemInfoEvent)="processItemResult($event)"></app-add-item>

@@ -42,7 +42,7 @@ export class ItemInfoComponent implements OnInit {
   setImage(): void {
     const formData = new FormData();
     formData.append('file', this.uploadForm.get('file').value);
-    formData.append('no', this.itemNo.toString());
+    formData.append('no', JSON.stringify(this.itemNo));
     // console.log(this.item);
     if(confirm('are you sure?'))
     {
