@@ -78,6 +78,7 @@ export class ErogeComponent implements OnInit, OnChanges {
     if($event.result == 1) {
       console.log('job successed');
       this.getEroge();
+      this.showItem = '';
     }
     else {
       this.error = $event.errorMessage;
@@ -116,7 +117,7 @@ export class ErogeComponent implements OnInit, OnChanges {
     });
 
   }
-  editImage(action : string ) : void {
+  editImage(action : string) : void {
     this.action = action;
   }
 }

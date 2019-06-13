@@ -14,6 +14,7 @@ export class DakimakuraComponent implements OnInit, OnChanges {
 
   indicator : string = Consts.Goods.Dakimakura;
   dakiData = [];
+  itemNo : number = 0;
   addItem; showItem; preview : string;
   noImage = Consts.noImage;
   action : string = '';
@@ -54,6 +55,7 @@ export class DakimakuraComponent implements OnInit, OnChanges {
           let link = cell.getData().image;
           let text = link == self.noImage ? Consts.Action.add : Consts.Action.edit;
           self.editImage(text);
+          self.itemNo = cell.getData().no;
           self.addItem = "";
           }, formatter: function(cell, formatterParams, onRendered){
             let link = cell.getData().image;
