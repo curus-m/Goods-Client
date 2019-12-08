@@ -24,7 +24,7 @@ const postHttpOptions = {
 };
 
 
-const serverURL = 'http://127.0.0.1:8080/';
+const serverURL = 'http://52.68.85.150:8080/myServer/';
 const erogeServerURL = serverURL+Consts.Goods.Eroge+'/';
 const dakimakuraServerURL = serverURL+Consts.Goods.Dakimakura+'/';
 const resourceURL = serverURL + "resources/";

@@ -21,7 +21,7 @@ export class DakimakuraComponent implements OnInit, OnChanges {
   tab = document.createElement('div');
   table = null;
   selectedGoods = null;
-  imageURL = "http://localhost:8080/resources/dakimakura/";
+  imageURL = "http://goods-resources.s3-ap-northeast-1.amazonaws.com/resources/dakimakura/";
   constructor(private service : GoodsService) { }
 
   ngOnInit() {

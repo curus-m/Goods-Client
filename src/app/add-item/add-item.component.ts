@@ -4,6 +4,7 @@ import { GoodsService } from '../services/goods.service';
 import { Consts } from '../services/consts';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Dakimakura } from '../item/Dakimakura';
+import { Eroge } from '../item/Eroge';
 
 @Component({
   selector: 'app-add-item',
@@ -12,7 +13,7 @@ import { Dakimakura } from '../item/Dakimakura';
 })
 export class AddItemComponent implements OnInit {
 
-  @Input() indicator : string = '';
+  @Input() indicator: string;
   @Output() itemInfoEvent: EventEmitter<Object> = new EventEmitter<Object>();
   eroge = Consts.Goods.Eroge;
   dakimakura = Consts.Goods.Dakimakura;
@@ -23,6 +24,7 @@ export class AddItemComponent implements OnInit {
   constructor(private service : GoodsService, private formBuilder: FormBuilder ) { }
   uploadForm : FormGroup
   ngOnInit() {
+    
     this.uploadForm= this.formBuilder.group({
       file: ['']
     });
@@ -52,6 +54,30 @@ export class AddItemComponent implements OnInit {
         return '이미지';
     }
   }
+  createItem() {
+    switch(this.indicator) {
+      case Consts.Goods.Eroge:
+        return new Eroge();
+      case Consts.Goods.Dakimakura:
+        return new Dakimakura();
+    }
+  }
+  clearInfo() : void {
+    this.item.title='';
+    this.item.brand='';
+    this.item.price=null;
+    this.item.releaseDate='';
+    switch(this.indicator) {
+      case Consts.Goods.Eroge:
+        // this.item.material = 0;  
+        break;  
+      case Consts.Goods.Dakimakura:
+          this.item = <Dakimakura> this.item;    
+          // this.item.material = 0;
+          break;
+    }
+    
+  }
   addItem(): void {
     this.item.releaseDate = this.service.dateMaker(this.item.releaseDate);
     const formData = new FormData();
@@ -62,6 +88,7 @@ export class AddItemComponent implements OnInit {
     {
         this.service.addItem(this.indicator,formData).subscribe((res) => {
         this.itemInfoEvent.emit(res);
+        this.clearInfo();
       }, (err) => {
         this.errorMsg = err;
       });
