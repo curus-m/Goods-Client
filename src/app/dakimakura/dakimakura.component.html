@@ -5,8 +5,8 @@
   <div id="dakiTable"></div>
 </div>
 <div class="previewContainer">
-    <a href="{{preview}}">
-      <img *ngIf="preview" src="{{preview}}" class="preview">
+    <a href="{{preview}}" data-lightbox="lightbox" >
+      <img *ngIf="preview" src="{{preview}}" class="preview" alt="{{selectedGoods.title}}">
     </a>
 </div>
 <div class="itemInfos">

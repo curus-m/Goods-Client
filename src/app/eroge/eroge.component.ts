@@ -36,12 +36,12 @@ export class ErogeComponent implements OnInit, OnChanges {
       data: this.erogeData,
       reactiveData:true, //enable data reactivity
       columns:[
-        {title:"Gid", field:"gid", align:"center", width:100, editor:"textarea"},
-        {title:"제목", field:"title", sorter:"string", width:200,  align:"center", editor:"textarea"},
-        {title:"브랜드", field:"brand", sorter:"string", align:"center", editor:"textarea"},
-        {title:"가격", field:"price", sorter:"string", align:"center", editor:"number"},
-        {title:"발매일", field:"releaseDate", sorter:"date", align:"center"},
-        {title: "이미지", field: "image", width: 80, align:"center" ,cellClick:function(e,cell){
+        {title:"Gid", field:"gid", hozAlign:"center", width:100, editor:"textarea"},
+        {title:"제목", field:"title", sorter:"string", width:200,  hozAlign:"center", editor:"textarea"},
+        {title:"브랜드", field:"brand", sorter:"string", hozAlign:"center", editor:"textarea"},
+        {title:"가격", field:"price", sorter:"string", hozAlign:"center", editor:"number"},
+        {title:"발매일", field:"releaseDate", sorter:"date", hozAlign:"center"},
+        {title: "이미지", field: "image", width: 80, hozAlign:"center" ,cellClick:function(e,cell){
           let link = cell.getData().image;
           let text = link == self.noImage ? Consts.Action.add : Consts.Action.edit;
           self.editImage(text);
@@ -52,7 +52,7 @@ export class ErogeComponent implements OnInit, OnChanges {
             let text = link == self.noImage ? Consts.Action.add : Consts.Action.edit;
             return `[${text}]`;
         }},
-        {title: "삭제" , formatter:"buttonCross", width:80, align:"center", cellClick:function(e, cell) {
+        {title: "삭제" , formatter:"buttonCross", width:80, hozAlign:"center", cellClick:function(e, cell) {
             if(confirm('are you sure?')) {
               self.deleteEroge(cell.getData().no);
               self.selectedGoods = null;
