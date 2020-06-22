@@ -25,8 +25,8 @@
             <div class="row col-lg-10 col-md-11" >
                 <div class="col-lg-2 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
                     <!-- <%=link_to(image_tag(getDakiUrl(daki.image), class: "dakiThumbnail", alt: daki.name), "dakimakura/#{daki.id}", class: "link")%> -->
-                    <router-link  :to="getTargetUrl(daki.id)" >
-                        <img  class="dakiThumbnail" :alt="daki.name" :src="getDakiUrl(daki.image)">
+                    <router-link  :to="targetUrl+daki.id" >
+                        <img  class="dakiThumbnail" :alt="daki.name" :src="imgUrl+daki.image">
                     </router-link>
                     <div class="dakiName">
                     <label>
@@ -46,22 +46,20 @@
 
 const axios = require('axios');
 export default {
-    name: 'dakimakura',
+    name: 'dakimakuraList',
     // props: {
     // msg: String
     // },
     data() {
-        return { msg: "Daki System", dakiList : []}
+        return { 
+            msg: "Daki System", 
+            dakiList : [],
+            imgUrl : "http://goods-resources.s3-ap-northeast-1.amazonaws.com/resources/dakimakura/",
+            targetUrl : "/dakimakura/"
+            }
     },
     methods: {
       
-        getDakiUrl(url) {
-            const base = "http://goods-resources.s3-ap-northeast-1.amazonaws.com/resources/dakimakura/";
-            return base+url;
-        },
-        getTargetUrl(id) {
-            return `/dakimakura/${id}`;
-        }
     },
     mounted(){
             axios.get('https://9twj2j205g.execute-api.ap-northeast-2.amazonaws.com/dev/dakimakura/')
