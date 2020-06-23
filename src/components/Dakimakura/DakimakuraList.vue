@@ -8,7 +8,7 @@
             <div class="buttons col-sm-8 col-md-10">
             </div>
             <div class="buttons col-sm-4 col-md-2">
-                <router-link tag="button" class="btn btn-danger" id="button" to="/dakimakura/new">
+                <router-link tag="button" class="btn btn-danger" id="button" to="/dakimakura/add/">
                   New
                 </router-link>
                 <router-link tag="button" class="btn btn-info" id="button" to="/dakimakura/search">
@@ -25,8 +25,8 @@
             <div class="row col-lg-10 col-md-11" >
                 <div class="col-lg-2 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
                     <!-- <%=link_to(image_tag(getDakiUrl(daki.image), class: "dakiThumbnail", alt: daki.name), "dakimakura/#{daki.id}", class: "link")%> -->
-                    <router-link  :to="targetUrl+daki.id" >
-                        <img  class="dakiThumbnail" :alt="daki.name" :src="imgUrl+daki.image">
+                    <router-link :to="targetUrl+daki.id" >
+                        <img class="dakiThumbnail" :alt="daki.name" :src="imgUrl+daki.image">
                     </router-link>
                     <div class="dakiName">
                     <label>
@@ -54,8 +54,8 @@ export default {
         return { 
             msg: "Daki System", 
             dakiList : [],
-            imgUrl : "http://goods-resources.s3-ap-northeast-1.amazonaws.com/resources/dakimakura/",
-            targetUrl : "/dakimakura/"
+            targetUrl : "/dakimakura/",
+            imgUrl : `${this.resourceUrl}/dakimakura/`
             }
     },
     methods: {
@@ -86,13 +86,6 @@ export default {
 .dakiName {
     text-align: center;
     font-size: 13px;
-}
-.dakiImage {
-    width: 90%;
-    height: 700px;
-}
-.dakiBrand {
-    font-size: 16px;
 }
 div.btn-group {
     width: 100%;

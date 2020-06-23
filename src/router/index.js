@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import DakimakuraList from '../components/DakimakuraList.vue'
-import DakimakuraView from '../components/DakimakuraView.vue'
+import Home from '../components/Home.vue'
+import DakimakuraList from '../components/Dakimakura/DakimakuraList.vue'
+import DakimakuraView from '../components/Dakimakura/DakimakuraView.vue'
+import DakimakuraAdd from '../components/Dakimakura/DakimakuraAdd.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -15,6 +16,11 @@ Vue.use(VueRouter)
     path: '/dakimakura',
     name: 'DakimakuraList',
     component: DakimakuraList
+  },
+  {
+    path: '/dakimakura/add/',
+    name: 'DakimakuraAdd',
+    component: DakimakuraAdd
   },
   {
     path: '/dakimakura/:id',
