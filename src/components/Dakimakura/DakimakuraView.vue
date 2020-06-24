@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div> ID : {{ this.$route.params.id}}
     <div class="container-fluid" v-if="dakimakura">
         <div class="row">
             <div class="col-sm-1 col-md-3"></div>
@@ -15,10 +15,11 @@
         <div class="row">
             <div class="col-sm-1 col-md-3"></div>
             <div class="col-sm-7 col-md-4">
-                <router-link to="dakimakura.image">
-                <!-- <img class="dakiThumbnail" :alt="daki.name"  class= "link" :src="imgUrl+daki.image"  data: "{lightbox: @dakimakura.id, title: @dakimakura.name"> -->
-                    <img class="dakiImage" :alt="dakimakura.name" :src="imgUrl+dakimakura.image">
-                </router-link>
+                  <vue-pure-lightbox :thumbnail="imgUrl+dakimakura.image"
+                        :images="[
+                        imgUrl+dakimakura.image
+                        ]">
+                </vue-pure-lightbox>
             </div>
             <div class="col-sm-3 col-md-2">
                 <div class="dakiBrand"><label>제작 서클/브랜드: </label> <span>{{dakimakura.brand}}</span> </div>
@@ -33,9 +34,11 @@
         <div class="row">
             <div class="col-sm-1 col-md-3"></div>
             <div class="col-sm-7 col-md-6">
-                <router-link :to="getPrev(dakimakura.id)">&lt;&lt; Prev </router-link>
+                <a :href="getPrev(dakimakura.id)">&lt;&lt; Prev </a>
+                <!-- <router-link :to="getPrev(dakimakura.id)">&lt;&lt; Prev </router-link> -->
                 <router-link :to="targetUrl">Main</router-link>
-                <router-link :to="getNext(dakimakura.id)"> Next &gt;&gt; </router-link>
+                <a :href="getNext(dakimakura.id)"> Next &gt;&gt; </a>
+                <!-- <router-link :to="getNext(dakimakura.id)"> Next &gt;&gt; </router-link> -->
             </div>
             <div class="col-sm-1 col-md-3"></div>
         </div>
@@ -44,15 +47,18 @@
 </template>
 <script>
     const axios = require('axios');
+    import VuePureLightbox from 'vue-pure-lightbox'
     // import $ from 'jquery'
     export default {
         name: "dakimakuraView",
         data(){
             return { dakimakura : '',
                 targetUrl : "/dakimakura/",
-                imgUrl : `${this.resourceUrl}/dakimakura/`
+                imgUrl : `${this.resourceUrl}/dakimakura/`,
+                id: this.$route.params.id
             }
         },
+        components : { VuePureLightbox },
         methods: {
             getPrev(id) {
                 const prevNum = id-1;
@@ -61,7 +67,16 @@
             getNext(id) {
                 const nextNum = id+1;
                 return this.targetUrl+nextNum;
-
+            },
+            getData(dakimakura) {
+                
+                return `{lightbox: ${dakimakura.id}, title: ${dakimakura.name}}`
+            }
+        },
+          watch: {
+            // 질문이 변경될 때 마다 이 기능이 실행됩니다.
+            id: function (newVal) {
+            console.log("id changed: "+newVal)
             }
         },
         mounted(){
@@ -76,6 +91,7 @@
             }
     }
 </script>
+<style src="vue-pure-lightbox/dist/VuePureLightbox.css"></style>
 <style scoped>
     .dakiImage {
         width: 90%;

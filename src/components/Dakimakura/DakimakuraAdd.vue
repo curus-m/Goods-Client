@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-1 col-md-4"></div>
             <div class="col-sm-7 col-md-6">
-            <form method="post" action='/dakimakura'>
+            <form method="post" id="formTest" @submit="checkForm" action='/dakimakura' enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-sm-3 col-md-4 labelColumn">
                     <label>이름</label>
@@ -39,8 +39,9 @@
                     <div class="col-sm-3 col-md-4 labelColumn">  
                     <label>재질</label>
                     </div>
+                   
                     <div class="col-sm-9 col-md-4 inputColumn">
-                    <!-- <%= select_tag(:material, options_for_select([['-재질 선택-', ''], ['2Way Tricot', 0], ['A&J ライクトロン', 1],['A&J アクアプレミア',2],['白もうふ', 3]]), class: "selectpicker", data: {style: "btn-primary"}, name: "dakimakura[material]") %> -->
+                  <v-select :options="materials" v-model="selectedMaterial" />
                     </div>
                 </div>
                 <div class="row">
@@ -49,23 +50,24 @@
                     </div>
                     <div class="col-sm-9 col-md-4 inputColumn">
                     <div class="input-group date">
-                    <input type="text" v-model="dakimakura.releasedate" class="form-control datePicker">
+                       <date-picker v-model="dakimakura.releasedate" valueType="YYYY-MM-DD"></date-picker>
                     </div>
                 </div>
                 </div>
                 <div class="row">
-                <div class="col-sm-3 col-md-4 labelColumn">
-                <label>이미지</label>
-                </div>
-                <div class="col-sm-9 col-md-4 inputColumn">
-                    <!-- <%= file_field_tag 'imageFile' %>
-                    <%= check_box_tag(:no_file) %>
-                    <%= label_tag(:no_file, "준비중") %> -->
-                </div>
+                    <div class="col-sm-3 col-md-4 labelColumn">
+                        <label>이미지</label>
+                    </div>
+                    <div class="col-sm-9 col-md-4 inputColumn">
+                        <!-- <input type="checkbox" name="no_file" id="no_file">
+                        <label for="no_file">준비중</label> -->
+                        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()">
+                    </div>
                 </div>
                 <div class="row">
-                <button type="submit" class= "btn btn-primary">전송</button>
-                {{errorData}}
+                    <button type="submit" class= "btn btn-primary">전송</button>
+                    <button type="button" class= "btn btn-primary" @click="test">TEST</button>
+                    <div v-if="errorData">{{errorData}}</div>
                 </div>
             </form>
         <div class="col-sm-1 col-md-3"></div>
@@ -73,14 +75,96 @@
         </div>
     </div>
 </template>
+
 <script>
-export default {
-     name: 'dakimakuraAdd',
-     data() { return { 
-        dakimakura: '',
-        errorData: ''
-     }}
-}
+    import DatePicker from 'vue2-datepicker';
+    // import $ from 'jquery';
+    import VSelect from '@alfsnd/vue-bootstrap-select';
+    // import BootstrapSelect from 'bootstrap-select'
+    import 'vue2-datepicker/index.css';
+    const axios = require('axios');
+    export default {
+        name: 'dakimakuraAdd',
+        components: { DatePicker, VSelect },
+        data() { return { 
+            file : '',
+            dakimakura: {
+                name: '',
+                brand: '',
+                price : '',
+                releasedate : '',
+                material: 0
+            },
+            errorData: '',
+            selectedMaterial : '',
+            materials: [
+                { value: null, text: "재질 선택"},
+                {value:0 , text: "2Way Tricot"},
+                {value:1 , text: "A&J ライクトロン"},
+                {value:2 , text: "A&J アクアプレミア"},
+                {value:3 , text: "白もうふ"}
+            ]
+            
+        }},
+        methods: {
+            test() {
+                console.log(this.dakimakura)
+            },
+            checkForm: function (e) {
+                let errors = [];
+
+                if (!this.dakimakura.name) {
+                    errors.push("Name required.");
+                }
+                if (!this.dakimakura.brand) {
+                    errors.push('Email required.');
+                }
+                if (isNaN(this.dakimakura.price)) {
+                    errors.push('Price required.');
+                }
+                if (isNaN(this.selectedMaterial.value)) {
+                    errors.push('Material required.');
+                } else {
+                    this.dakimakura.material = this.selectedMaterial.value;
+                }
+                if (!this.dakimakura.releasedate) {
+                   errors.push('ReleaseDate required.');
+                }
+                e.preventDefault();
+                if (errors.length) {
+                    this.errorData = errors;
+                    
+                } else {
+                    this.errorData = '';
+                    e.preventDefault();
+                    this.send();    
+                }
+            },
+            send() {
+                const formData = new FormData();
+                formData.append("data", this.dakimakura);
+                if(this.file) { 
+                    formData.append("file", this.file, this.file.name);
+                }
+                axios.post('/newDaki', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+            }
+        }
+    }
+   
 </script>
 <style scoped>
+
 </style>
