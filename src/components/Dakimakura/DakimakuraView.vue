@@ -7,7 +7,7 @@
                 <h1 class="title">{{dakimakura.name}}</h1>
             </div>
             <div class="col-sm-1 col-md-3">
-                <router-link tag="button" class="btn btn-warning" id="button" to="/dakimakura/edit">
+                <router-link tag="button" class="btn btn-warning" id="button" :to="editUrl+dakimakura.id">
                 Edit
                 </router-link>
             </div>
@@ -54,6 +54,7 @@
         data(){
             return { dakimakura : '',
                 targetUrl : "/dakimakura/",
+                editUrl: "/dakimakura/edit/",
                 imgUrl : `${this.resourceUrl}/dakimakura/`,
                 id: this.$route.params.id
             }

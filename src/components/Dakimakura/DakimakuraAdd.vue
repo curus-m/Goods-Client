@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-1 col-md-4"></div>
             <div class="col-sm-7 col-md-6">
-            <form method="post" id="formTest" @submit="checkForm" action='/dakimakura' enctype="multipart/form-data">
+            <form method="post" id="formTest" @submit="checkForm" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-sm-3 col-md-4 labelColumn">
                     <label>이름</label>
