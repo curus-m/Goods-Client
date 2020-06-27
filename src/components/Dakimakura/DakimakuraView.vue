@@ -53,9 +53,9 @@
         name: "dakimakuraView",
         data(){
             return { dakimakura : '',
-                targetUrl : "/dakimakura/",
-                editUrl: "/dakimakura/edit/",
-                imgUrl : `${this.resourceUrl}/dakimakura/`,
+                targetUrl : `${this.dakimakuraPath}`,
+                editUrl: `${this.dakimakuraPath}edit/`,
+                imgUrl : `${this.imageResourceUrl}${this.dakimakuraPath}`,
                 id: this.$route.params.id
             }
         },
@@ -81,7 +81,7 @@
             }
         },
         mounted(){
-                axios.get(`https://9twj2j205g.execute-api.ap-northeast-2.amazonaws.com/dev/dakimakura/${this.$route.params.id}`)
+                axios.get(`${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`)
                     .then((response) => {
                         console.log("Download Complete");
                         this.dakimakura = response.data;

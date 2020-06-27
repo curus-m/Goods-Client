@@ -24,7 +24,7 @@
                     <label>제작 서클/브랜드</label>
                     </div>
                     <div class="col-sm-9 col-md-4 inputColumn">
-                    <input type="text" v-model="dakimakura.brand" class="form-control">
+                    <input type="text" v-model="dakimakura.brand" class="form-control" >
                     </div>
                 </div>
                 <div class="row">
@@ -41,7 +41,7 @@
                     </div>
                    
                     <div class="col-sm-9 col-md-4 inputColumn">
-                  <v-select :options="materials" v-model="selectedMaterial" />
+                  <v-select :options="materials" v-model="selectedMaterial"/>
                     </div>
                 </div>
                 <div class="row">
@@ -66,7 +66,6 @@
                 </div>
                 <div class="row">
                     <button type="submit" class= "btn btn-primary">전송</button>
-                    <button type="button" class= "btn btn-primary" @click="test">TEST</button>
                     <div v-if="errorData">{{errorData}}</div>
                 </div>
             </form>
@@ -87,17 +86,50 @@ export default {
     name: 'dakimakuraEdit',
     components: { DatePicker, VSelect },
     data(){return {
-        dakimakura: ''
+        dakimakura: '',
+        materials: [],
+        selectedMaterial : '',
+        errorData: ''
     }}, 
     methods : {
         getDaki(){},
+        checkForm: function (e) {
+                let errors = [];
+
+                if (!this.dakimakura.name) {
+                    errors.push("Name required.");
+                }
+                if (!this.dakimakura.brand) {
+                    errors.push('Email required.');
+                }
+                if (isNaN(this.dakimakura.price)) {
+                    errors.push('Price required.');
+                }
+                if (isNaN(this.selectedMaterial.value)) {
+                    errors.push('Material required.');
+                } else {
+                    this.dakimakura.material = this.selectedMaterial.value;
+                }
+                if (!this.dakimakura.releasedate) {
+                   errors.push('ReleaseDate required.');
+                }
+                e.preventDefault();
+                if (errors.length) {
+                    this.errorData = errors;
+                    
+                } else {
+                    this.errorData = '';
+                    e.preventDefault();
+                    this.send();    
+                }
+            },
         send() {
                 const formData = new FormData();
                 formData.append("data", this.dakimakura);
                 if(this.file) { 
                     formData.append("file", this.file, this.file.name);
                 }
-                axios.post('/dakimakura/update', formData, {
+                axios.put(`${this.ApiUrl}${this.dakimakuraPath}update`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -109,18 +141,27 @@ export default {
                     console.log(error);
                 });
             },
+        setSelected(value) {
+            console.log(value);
+        },
     },
-    mounted(){
-            axios.get(`https://9twj2j205g.execute-api.ap-northeast-2.amazonaws.com/dev/dakimakura/${this.$route.params.id}`)
-                .then((response) => {
-                    console.log("Download Complete");
-                    this.dakimakura = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        }
-    
+    mounted: function(){
+        axios.get(`${this.ApiUrl}${this.dakimakuraPath}`).then((response) => {
+            console.log("Material Complete");
+            this.materials = response.data;            
+            axios.get(`${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`).then((response) => {
+                this.dakimakura = response.data;
+                let selectedValue = this.materials.find(item => item.value == this.dakimakura.material);
+                this.selectedMaterial = selectedValue;
+            }).catch(function(error) {
+                console.log(error);
+            });
+        })
+        .catch(function(error) {
+            console.log(error);
+            return null;
+        });
+    }
 
 }
 </script>

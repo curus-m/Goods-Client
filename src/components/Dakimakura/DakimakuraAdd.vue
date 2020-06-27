@@ -24,7 +24,7 @@
                     <label>제작 서클/브랜드</label>
                     </div>
                     <div class="col-sm-9 col-md-4 inputColumn">
-                    <input type="text" v-model="dakimakura.brand" class="form-control">
+                    <input type="text" name="brand" v-model="dakimakura.brand" class="form-control">
                     </div>
                 </div>
                 <div class="row">
@@ -32,7 +32,7 @@
                     <label>가격</label>
                     </div>
                     <div class="col-sm-9 col-md-4 inputColumn">
-                    <input type="text" v-model="dakimakura.price" class="form-control">
+                    <input type="text" name="price" v-model="dakimakura.price" class="form-control">
                     </div>
                 </div>
                 <div class="row">
@@ -66,7 +66,6 @@
                 </div>
                 <div class="row">
                     <button type="submit" class= "btn btn-primary">전송</button>
-                    <button type="button" class= "btn btn-primary" @click="test">TEST</button>
                     <div v-if="errorData">{{errorData}}</div>
                 </div>
             </form>
@@ -97,13 +96,7 @@
             },
             errorData: '',
             selectedMaterial : '',
-            materials: [
-                { value: null, text: "재질 선택"},
-                {value:0 , text: "2Way Tricot"},
-                {value:1 , text: "A&J ライクトロン"},
-                {value:2 , text: "A&J アクアプレミア"},
-                {value:3 , text: "白もうふ"}
-            ]
+            materials: [ ]
             
         }},
         methods: {
@@ -146,7 +139,7 @@
                 if(this.file) { 
                     formData.append("file", this.file, this.file.name);
                 }
-                axios.post('/newDaki', formData, {
+                axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -161,6 +154,15 @@
             handleFileUpload(){
                 this.file = this.$refs.file.files[0];
             }
+        },
+        mounted: function(){
+            axios.get(`${this.ApiUrl}${this.material}`).then((response) => {
+                this.materials = response.data;            
+            })
+            .catch(function(error) {
+                console.log(error);
+                return null;
+            });
         }
     }
    

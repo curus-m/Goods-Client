@@ -54,15 +54,15 @@ export default {
         return { 
             msg: "Daki System", 
             dakiList : [],
-            targetUrl : "/dakimakura/",
-            imgUrl : `${this.resourceUrl}/dakimakura/`
+            targetUrl : this.dakimakura,
+            imgUrl : `${this.imageResourceUrl}${this.dakimakuraPath}`
             }
     },
     methods: {
       
     },
     mounted(){
-            axios.get('https://9twj2j205g.execute-api.ap-northeast-2.amazonaws.com/dev/dakimakura/')
+            axios.get(`${this.ApiUrl}${this.dakimakuraPath}`)
                 .then((response) => {
                     console.log("Download Complete");
                     this.dakiList = response.data;
