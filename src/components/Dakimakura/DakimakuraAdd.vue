@@ -153,12 +153,10 @@
                 });
             },
             sendImage() {
-                const form = new FormData();
-                form.append("file", this.file);
-                axios.put(this.imageUploadUrl, form).then((response) => {
-                    console.log(response);
-                    console.log("upload OK");
-                });
+                const header = { headers : 
+                    { 'Content-Type': this.file.type }
+                }
+                axios.put(this.imageUploadUrl, this.file, header).then();
             },
             handleFileUpload(){ 
                 this.file = this.$refs.file.files[0];
