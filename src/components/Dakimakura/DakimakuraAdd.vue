@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-1 col-md-4"></div>
             <div class="col-sm-7 col-md-6">
-            <form method="post" id="formTest" @submit="checkForm" enctype="multipart/form-data">
+            <form method="post" id="formTest" @submit="checkForm" accept-charset="UTF-8">
                 <div class="row">
                     <div class="col-sm-3 col-md-4 labelColumn">
                     <label>이름</label>
@@ -77,9 +77,7 @@
 
 <script>
     import DatePicker from 'vue2-datepicker';
-    // import $ from 'jquery';
     import VSelect from '@alfsnd/vue-bootstrap-select';
-    // import BootstrapSelect from 'bootstrap-select'
     import 'vue2-datepicker/index.css';
     const axios = require('axios');
     export default {
@@ -96,8 +94,9 @@
             },
             errorData: '',
             selectedMaterial : '',
-            materials: [ ]
-            
+            materials: [ ],
+            imageUploadUrl: '',
+            imageUploadForm: ''
         }},
         methods: {
             test() {
@@ -130,16 +129,18 @@
                 } else {
                     this.errorData = '';
                     e.preventDefault();
-                    this.send();    
+                    this.sendImage();    
                 }
             },
-            send() {
-                const formData = new FormData();
-                formData.append("data", this.dakimakura);
+            sendData() {
+                // const formData = new FormData();
                 if(this.file) { 
-                    formData.append("file", this.file, this.file.name);
+                    this.dakimakura.fileName = this.file.name;
+                } else {
+                    this.dakimakura.fileName = null;
                 }
-                axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, formData, {
+                // formData.append("data", this.dakimakura);
+                axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, this.dakimakura, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -151,8 +152,21 @@
                     console.log(error);
                 });
             },
-            handleFileUpload(){
+            sendImage() {
+                const form = new FormData();
+                form.append("file", this.file);
+                axios.put(this.imageUploadUrl, form).then((response) => {
+                    console.log(response);
+                    console.log("upload OK");
+                });
+            },
+            handleFileUpload(){ 
                 this.file = this.$refs.file.files[0];
+                const body = { "fileName": this.file.name , "fileType": this.file.type};
+                const header = { "Access-Control-Allow-Origin" : "*"};
+                axios.post("https://en6toydx24.execute-api.ap-northeast-1.amazonaws.com/dev/getpresign", JSON.stringify(body), header).then((response) => {
+                    this.imageUploadUrl = response.data;
+                });
             }
         },
         mounted: function(){
