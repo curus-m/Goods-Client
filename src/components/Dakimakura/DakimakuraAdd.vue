@@ -61,7 +61,8 @@
                     <div class="col-sm-9 col-md-4 inputColumn">
                         <!-- <input type="checkbox" name="no_file" id="no_file">
                         <label for="no_file">준비중</label> -->
-                        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()">
+                        <!-- v-on:change="handleFileUpload()" -->
+                        <input type="file" id="file" ref="file" >
                     </div>
                 </div>
                 <div class="row">
@@ -140,30 +141,29 @@
                     this.dakimakura.fileName = null;
                 }
                 // formData.append("data", this.dakimakura);
-                axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, this.dakimakura, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-                })
+                axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, JSON.stringify(this.dakimakura))
                 .then(function (response) {
                     console.log(response);
+                    console.log("Upload OK!");
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
             },
             sendImage() {
-                const header = { headers : 
-                    { 'Content-Type': this.file.type }
-                }
-                axios.put(this.imageUploadUrl, this.file, header).then();
-            },
-            handleFileUpload(){ 
                 this.file = this.$refs.file.files[0];
                 const body = { "fileName": this.file.name , "fileType": this.file.type};
                 const header = { "Access-Control-Allow-Origin" : "*"};
+                const self = this;
                 axios.post("https://en6toydx24.execute-api.ap-northeast-1.amazonaws.com/dev/getpresign", JSON.stringify(body), header).then((response) => {
+
                     this.imageUploadUrl = response.data;
+                    const header = { headers : 
+                        { 'Content-Type': this.file.type }
+                    }
+                    axios.put(this.imageUploadUrl, this.file, header).then(function() {
+                        self.sendData();
+                    });
                 });
             }
         },
