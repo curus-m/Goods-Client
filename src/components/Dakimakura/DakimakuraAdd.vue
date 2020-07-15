@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-1 col-md-4"></div>
             <div class="col-sm-7 col-md-6">
-            <form method="post" id="formTest" @submit="checkForm" accept-charset="UTF-8">
+            <form method="post" id="dakimakuraForm" @submit="checkForm" accept-charset="UTF-8">
                 <div class="row">
                     <div class="col-sm-3 col-md-4 labelColumn">
                     <label>이름</label>
@@ -100,9 +100,6 @@
             imageUploadForm: ''
         }},
         methods: {
-            test() {
-                console.log(this.dakimakura)
-            },
             checkForm: function (e) {
                 let errors = [];
 

@@ -54,12 +54,11 @@ export default {
         return { 
             msg: "Daki System", 
             dakiList : [],
-            targetUrl : this.dakimakura,
+            targetUrl : this.dakimakuraPath,
             imgUrl : `${this.imageResourceUrl}${this.dakimakuraPath}`
             }
     },
     methods: {
-      
     },
     mounted(){
             axios.get(`${this.ApiUrl}${this.dakimakuraPath}`)

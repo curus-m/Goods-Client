@@ -92,8 +92,7 @@ export default {
         errorData: ''
     }}, 
     methods : {
-        getDaki(){},
-        checkForm: function (e) {
+       checkForm: function (e) {
                 let errors = [];
 
                 if (!this.dakimakura.name) {
@@ -120,49 +119,60 @@ export default {
                 } else {
                     this.errorData = '';
                     e.preventDefault();
-                    this.send();    
+                    this.sendImage();    
                 }
             },
-        send() {
-                const formData = new FormData();
-                formData.append("data", this.dakimakura);
+            sendData() {
+                // const formData = new FormData();
                 if(this.file) { 
-                    formData.append("file", this.file, this.file.name);
+                    this.dakimakura.fileName = this.file.name;
+                } else {
+                    this.dakimakura.fileName = null;
                 }
-                axios.put(`${this.ApiUrl}${this.dakimakuraPath}update`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-                })
+                // formData.append("data", this.dakimakura);
+                axios.put(`${this.ApiUrl}${this.dakimakuraPath}`, JSON.stringify(this.dakimakura))
                 .then(function (response) {
                     console.log(response);
+                    console.log("Upload OK!");
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
             },
-        setSelected(value) {
-            console.log(value);
-        },
+            sendImage() {
+                this.file = this.$refs.file.files[0];
+                const body = { "fileName": this.file.name , "fileType": this.file.type};
+                const header = { "Access-Control-Allow-Origin" : "*"};
+                const self = this;
+                axios.post("https://en6toydx24.execute-api.ap-northeast-1.amazonaws.com/dev/getpresign", JSON.stringify(body), header).then((response) => {
+
+                    this.imageUploadUrl = response.data;
+                    const header = { headers : 
+                        { 'Content-Type': this.file.type }
+                    }
+                    axios.put(this.imageUploadUrl, this.file, header).then(function() {
+                        self.sendData();
+                    });
+                });
+            }
     },
     mounted: function(){
-        axios.get(`${this.ApiUrl}${this.dakimakuraPath}`).then((response) => {
-            console.log("Material Complete");
+        axios.get(`${this.ApiUrl}${this.material}`).then((response) => {
             this.materials = response.data;            
-            axios.get(`${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`).then((response) => {
-                this.dakimakura = response.data;
-                let selectedValue = this.materials.find(item => item.value == this.dakimakura.material);
-                this.selectedMaterial = selectedValue;
-            }).catch(function(error) {
-                console.log(error);
-            });
         })
         .catch(function(error) {
             console.log(error);
             return null;
         });
+        axios.get(`${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`)
+                .then((response) => {
+                    console.log("Download Complete");
+                    this.dakimakura = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
     }
-
 }
 </script>
 <style scoped>
