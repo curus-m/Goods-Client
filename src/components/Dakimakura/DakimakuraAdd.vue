@@ -59,9 +59,6 @@
                         <label>이미지</label>
                     </div>
                     <div class="col-sm-9 col-md-4 inputColumn">
-                        <!-- <input type="checkbox" name="no_file" id="no_file">
-                        <label for="no_file">준비중</label> -->
-                        <!-- v-on:change="handleFileUpload()" -->
                         <input type="file" id="file" ref="file" >
                     </div>
                 </div>
@@ -131,13 +128,11 @@
                 }
             },
             sendData() {
-                // const formData = new FormData();
                 if(this.file) { 
                     this.dakimakura.fileName = this.file.name;
                 } else {
                     this.dakimakura.fileName = null;
                 }
-                // formData.append("data", this.dakimakura);
                 axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, JSON.stringify(this.dakimakura))
                 .then(function (response) {
                     console.log(response);
@@ -148,11 +143,14 @@
                 });
             },
             sendImage() {
-                this.file = this.$refs.file.files[0];
-                const body = { "fileName": this.file.name , "fileType": this.file.type};
-                const header = { "Access-Control-Allow-Origin" : "*"};
                 const self = this;
-                axios.post("https://en6toydx24.execute-api.ap-northeast-1.amazonaws.com/dev/getpresign", JSON.stringify(body), header).then((response) => {
+                this.file = this.$refs.file.files[0];
+                if(!this.file) { 
+                    self.sendData();
+                    return; 
+                }
+                const body = { "fileName": this.file.name , "fileType": this.file.type};
+                axios.post(this.preSignUrl, JSON.stringify(body)).then((response) => {
 
                     this.imageUploadUrl = response.data;
                     const header = { headers : 

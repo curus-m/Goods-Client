@@ -7,6 +7,7 @@ Vue.prototype.imageResourceUrl = "http://goods-resources.s3-ap-northeast-1.amazo
 Vue.prototype.ApiUrl = "https://en6toydx24.execute-api.ap-northeast-1.amazonaws.com/dev";
 Vue.prototype.dakimakuraPath = "/dakimakura/";
 Vue.prototype.material="/material/";
+Vue.prototype.preSignUrl="https://en6toydx24.execute-api.ap-northeast-1.amazonaws.com/dev/getpresign"
 new Vue({
   components: {
     VuePureLightbox,

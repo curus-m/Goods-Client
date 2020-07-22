@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-1 col-md-4"></div>
             <div class="col-sm-7 col-md-6">
-            <form method="post" id="formTest" @submit="checkForm" action='/dakimakura/edit' enctype="multipart/form-data">
+            <form method="put" id="dakimakuraForm" @submit="checkForm" accept-charset="UTF-8">
                 <div class="row">
                     <div class="col-sm-3 col-md-4 labelColumn">
                     <label>이름</label>
@@ -59,9 +59,7 @@
                         <label>이미지</label>
                     </div>
                     <div class="col-sm-9 col-md-4 inputColumn">
-                        <!-- <input type="checkbox" name="no_file" id="no_file">
-                        <label for="no_file">준비중</label> -->
-                        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()">
+                        <input type="file" id="file" ref="file">
                     </div>
                 </div>
                 <div class="row">
@@ -77,9 +75,7 @@
 <script> 
     
 import DatePicker from 'vue2-datepicker';
-// import $ from 'jquery';
 import VSelect from '@alfsnd/vue-bootstrap-select';
-// import BootstrapSelect from 'bootstrap-select'
 import 'vue2-datepicker/index.css';
 const axios = require('axios');
 export default {
@@ -119,32 +115,49 @@ export default {
                 } else {
                     this.errorData = '';
                     e.preventDefault();
-                    this.sendImage();    
+                    this.sendImage();
                 }
             },
             sendData() {
-                // const formData = new FormData();
                 if(this.file) { 
                     this.dakimakura.fileName = this.file.name;
                 } else {
-                    this.dakimakura.fileName = null;
+                    this.dakimakura.fileName = "";
+                    this.dakimakura.image = "";
                 }
-                // formData.append("data", this.dakimakura);
-                axios.put(`${this.ApiUrl}${this.dakimakuraPath}`, JSON.stringify(this.dakimakura))
-                .then(function (response) {
+                /* const config = { headers:{
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+                    'Access-Control-Allow-Credentials' : true,
+                    'Content-Type': "application/json;charset=utf-8"
+                    }
+                }; */
+                const endpoint = `${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`;
+
+                axios({
+                    method: 'put',
+                    url : endpoint, 
+                    data: JSON.stringify(this.dakimakura)
+                }).then(function (response) {
                     console.log(response);
                     console.log("Upload OK!");
+                    // redirect
+                    this.$router.push(`${this.dakimakuraPath}${this.$route.params.id}`)
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
             },
             sendImage() {
-                this.file = this.$refs.file.files[0];
-                const body = { "fileName": this.file.name , "fileType": this.file.type};
-                const header = { "Access-Control-Allow-Origin" : "*"};
                 const self = this;
-                axios.post("https://en6toydx24.execute-api.ap-northeast-1.amazonaws.com/dev/getpresign", JSON.stringify(body), header).then((response) => {
+                this.file = this.$refs.file.files[0];
+                if(!this.file) { 
+                    self.sendData();
+                    return; 
+                }
+                const body = { "fileName": this.file.name , "fileType": this.file.type};
+                
+                axios.post(this.preSignUrl, JSON.stringify(body)).then((response) => {
 
                     this.imageUploadUrl = response.data;
                     const header = { headers : 
@@ -168,6 +181,7 @@ export default {
                 .then((response) => {
                     console.log("Download Complete");
                     this.dakimakura = response.data;
+                    this.selectedMaterial = this.dakimakura.material;
                 })
                 .catch(function(error) {
                     console.log(error);
