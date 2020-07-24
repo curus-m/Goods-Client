@@ -125,13 +125,6 @@ export default {
                     this.dakimakura.fileName = "";
                     this.dakimakura.image = "";
                 }
-                /* const config = { headers:{
-                    'Access-Control-Allow-Origin' : '*',
-                    'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-                    'Access-Control-Allow-Credentials' : true,
-                    'Content-Type': "application/json;charset=utf-8"
-                    }
-                }; */
                 const endpoint = `${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`;
                 const self = this;
                 axios({

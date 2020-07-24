@@ -59,11 +59,12 @@ export default {
     methods: {
     },
     mounted(){
-        let page = this.$route.query.page;
-        let query = this.$route.query.query;
+        let page = this.$route.query.page ? this.$route.query.page : 1;
+        let query = this.$route.query.query ? this.$route.query.query: '';
+        let category = this.$route.query.category ? this.$route.query.category : 0;
         console.log (`page : ${page} , query: ${query}`);
         console.log()
-            axios.get(`${this.ApiUrl}${this.dakimakuraPath}`)
+            axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${page}&query=${query}&category=${category}`)
                 .then((response) => {
                     console.log("Download Complete");
                     this.dakiList = response.data;
