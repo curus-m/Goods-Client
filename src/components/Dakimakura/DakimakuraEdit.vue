@@ -133,7 +133,7 @@ export default {
                     }
                 }; */
                 const endpoint = `${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`;
-
+                const self = this;
                 axios({
                     method: 'put',
                     url : endpoint, 
@@ -142,7 +142,7 @@ export default {
                     console.log(response);
                     console.log("Upload OK!");
                     // redirect
-                    this.$router.push(`${this.dakimakuraPath}${this.$route.params.id}`)
+                    self.$router.push(`${self.dakimakuraPath}${self.$route.params.id}`)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -170,6 +170,7 @@ export default {
             }
     },
     mounted: function(){
+        const self = this;
         axios.get(`${this.ApiUrl}${this.material}`).then((response) => {
             this.materials = response.data;            
         })
@@ -180,8 +181,9 @@ export default {
         axios.get(`${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`)
                 .then((response) => {
                     console.log("Download Complete");
-                    this.dakimakura = response.data;
-                    this.selectedMaterial = this.dakimakura.material;
+                    self.dakimakura = response.data;
+                    const material  = self.materials.find(item => item.value == self.dakimakura.material);
+                    self.selectedMaterial = material;
                 })
                 .catch(function(error) {
                     console.log(error);

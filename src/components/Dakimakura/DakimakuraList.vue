@@ -14,8 +14,6 @@
                 <router-link tag="button" class="btn btn-info" id="button" to="/dakimakura/search">
                   search
                 </router-link>
-                
-                
             </div>
         </div>
         <div class="row">
@@ -61,6 +59,10 @@ export default {
     methods: {
     },
     mounted(){
+        let page = this.$route.query.page;
+        let query = this.$route.query.query;
+        console.log (`page : ${page} , query: ${query}`);
+        console.log()
             axios.get(`${this.ApiUrl}${this.dakimakuraPath}`)
                 .then((response) => {
                     console.log("Download Complete");

@@ -128,6 +128,7 @@
                 }
             },
             sendData() {
+                const self = this;
                 if(this.file) { 
                     this.dakimakura.fileName = this.file.name;
                 } else {
@@ -136,7 +137,7 @@
                 axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, JSON.stringify(this.dakimakura))
                 .then(function (response) {
                     console.log(response);
-                    console.log("Upload OK!");
+                    self.$router.push(`${self.dakimakuraPath}`);
                 })
                 .catch(function (error) {
                     console.log(error);
