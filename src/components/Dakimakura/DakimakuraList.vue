@@ -3,7 +3,6 @@
         <div class="row row-cols-1" style="text-align:center">
             <h1> {{msg}} </h1>
         </div>
-        <!-- <button v-on:click="fetchData">get data</button> -->
         <div class="row">
             <div class="buttons col-sm-8 col-md-10">
             </div>
@@ -27,9 +26,9 @@
                         <img class="dakiThumbnail" :alt="daki.name" :src="imgUrl+daki.image">
                     </router-link>
                     <div class="dakiName">
-                    <label>
-                        {{daki.name}}
-                    </label>
+                        <label>
+                            {{daki.name}}
+                        </label>
                     </div>
                 </div>
             </div>
@@ -37,6 +36,21 @@
         
             </div>
         </div>
+        <div class="row">
+            <div class="col col-lg-1"></div>
+            <div class="row col-lg-10 col-md-11"> 
+                <span v-for="pageNum in pages" v-bind:key="pageNum" >
+                    <span v-on:click="getDakimakuras(pageNum)" v-if="pageNum != page" class="dakiPage_active">
+                        {{pageNum}}
+                    </span>
+                    <span v-else class="dakiPage">
+                        {{pageNum}} 
+                    </span>
+                </span>
+            </div>
+            <div class="col col-lg-1"></div>
+        </div>
+        
     </div>
 </template>
 
@@ -53,25 +67,40 @@ export default {
             msg: "Daki System", 
             dakiList : [],
             targetUrl : this.dakimakuraPath,
-            imgUrl : `${this.imageResourceUrl}${this.dakimakuraPath}`
+            imgUrl : `${this.imageResourceUrl}${this.dakimakuraPath}`,
+            pages: 0,
+            page: 0,
+            pageUrl: `${this.dakimakuraPath.slice(0,-1)}?page=`
             }
     },
     methods: {
+        getDakimakuras(pageNum){
+            this.page = pageNum;
+             axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${pageNum}`)
+            .then((response) => {
+                this.dakiList = response.data.dakimakuras;
+                this.pages = response.data.totalPages;
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
+        
     },
     mounted(){
         let page = this.$route.query.page ? this.$route.query.page : 1;
+        this.page = page;
         let query = this.$route.query.query ? this.$route.query.query: '';
         let category = this.$route.query.category ? this.$route.query.category : 0;
-        console.log (`page : ${page} , query: ${query}`);
-        console.log()
-            axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${page}&query=${query}&category=${category}`)
-                .then((response) => {
-                    console.log("Download Complete");
-                    this.dakiList = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
+        // console.log (`page : ${page} , query: ${query}`);
+        axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${page}&query=${query}&category=${category}`)
+            .then((response) => {
+                this.dakiList = response.data.dakimakuras;
+                this.pages = response.data.totalPages;
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
         }
     
 }
@@ -95,5 +124,15 @@ div.btn-group {
         width: 100%;
     }
 }
-
+.dakiPage_active{
+    font-size: 13px;
+    color: blue;
+    margin: 0 10px 0 10px;
+    cursor: pointer;
+}
+.dakiPage {
+    font-size: 13px;
+    color: black;
+    margin: 0 10px 0 10px;
+}
 </style>
