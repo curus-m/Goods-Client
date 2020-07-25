@@ -1,5 +1,8 @@
 <template>
-  <div> ID : {{ this.$route.params.id}}
+  <div>
+    <div class="loading" v-if="loading">
+        Loading... (ID : {{ this.$route.params.id}})
+    </div>
     <div class="container-fluid" v-if="dakimakura">
         <div class="row">
             <div class="col-sm-1 col-md-3"></div>
@@ -56,7 +59,8 @@
                 targetUrl : `${this.dakimakuraPath}`,
                 editUrl: `${this.dakimakuraPath}edit/`,
                 imgUrl : `${this.imageResourceUrl}${this.dakimakuraPath}`,
-                id: this.$route.params.id
+                id: this.$route.params.id,
+                loading: true
             }
         },
         components : { VuePureLightbox },
@@ -70,7 +74,6 @@
                 return this.targetUrl+nextNum;
             },
             getData(dakimakura) {
-                
                 return `{lightbox: ${dakimakura.id}, title: ${dakimakura.name}}`
             }
         },
@@ -85,6 +88,7 @@
                     .then((response) => {
                         console.log("Download Complete");
                         this.dakimakura = response.data;
+                        this.loading = false;
                     })
                     .catch(function(error) {
                         console.log(error);

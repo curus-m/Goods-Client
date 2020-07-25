@@ -15,7 +15,10 @@
                 </router-link>
             </div>
         </div>
-        <div class="row">
+        <div class="loading" v-if="loading">
+            Loading...
+        </div>
+        <div class="row" v-if="!loading">
             <div class="col col-lg-1">
             
             </div>
@@ -41,7 +44,9 @@
             <div class="row col-lg-10 col-md-11"> 
                 <span v-for="pageNum in pages" v-bind:key="pageNum" >
                     <span v-on:click="getDakimakuras(pageNum)" v-if="pageNum != page" class="dakiPage_active">
-                        {{pageNum}}
+                        <router-link :to="pageUrl+pageNum">
+                            {{pageNum}}
+                        </router-link>
                     </span>
                     <span v-else class="dakiPage">
                         {{pageNum}} 
@@ -59,9 +64,6 @@
 const axios = require('axios');
 export default {
     name: 'dakimakuraList',
-    // props: {
-    // msg: String
-    // },
     data() {
         return { 
             msg: "Daki System", 
@@ -70,16 +72,19 @@ export default {
             imgUrl : `${this.imageResourceUrl}${this.dakimakuraPath}`,
             pages: 0,
             page: 0,
-            pageUrl: `${this.dakimakuraPath.slice(0,-1)}?page=`
+            pageUrl: `${this.dakimakuraPath.slice(0,-1)}?page=`,
+            loading: true
             }
     },
     methods: {
         getDakimakuras(pageNum){
             this.page = pageNum;
-             axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${pageNum}`)
+            this.loading = true;
+            axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${pageNum}`)
             .then((response) => {
                 this.dakiList = response.data.dakimakuras;
                 this.pages = response.data.totalPages;
+                this.loading = false;
             })
             .catch(function(error) {
                 console.log(error);
@@ -97,6 +102,7 @@ export default {
             .then((response) => {
                 this.dakiList = response.data.dakimakuras;
                 this.pages = response.data.totalPages;
+                this.loading = false;
             })
             .catch(function(error) {
                 console.log(error);
@@ -134,5 +140,10 @@ div.btn-group {
     font-size: 13px;
     color: black;
     margin: 0 10px 0 10px;
+}
+.loading{
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 </style>
