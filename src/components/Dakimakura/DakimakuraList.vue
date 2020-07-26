@@ -24,7 +24,6 @@
             </div>
             <div class="row col-lg-10 col-md-11" >
                 <div class="col-lg-2 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
-                    <!-- <%=link_to(image_tag(getDakiUrl(daki.image), class: "dakiThumbnail", alt: daki.name), "dakimakura/#{daki.id}", class: "link")%> -->
                     <router-link :to="targetUrl+daki.id" >
                         <img class="dakiThumbnail" :alt="daki.name" :src="imgUrl+daki.image">
                     </router-link>

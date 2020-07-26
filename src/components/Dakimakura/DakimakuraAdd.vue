@@ -1,5 +1,8 @@
 <template>
     <div class="container-fluid">
+        <div class="loading" v-if="loading">
+            Loading...
+        </div>
         <div class="row">
             <div class="col-sm-1 col-md-4"></div>
             <div class="col-sm-7 col-md-6">
@@ -7,7 +10,7 @@
             </div>
             <div class="col-sm-1 col-md-4"></div>
         </div>  
-        <div class="row">
+        <div class="row" v-if="!loading">
             <div class="col-sm-1 col-md-4"></div>
             <div class="col-sm-7 col-md-6">
             <form method="post" id="dakimakuraForm" @submit="checkForm" accept-charset="UTF-8">
@@ -94,7 +97,8 @@
             selectedMaterial : '',
             materials: [ ],
             imageUploadUrl: '',
-            imageUploadForm: ''
+            imageUploadForm: '',
+            loading: false
         }},
         methods: {
             checkForm: function (e) {
@@ -136,11 +140,13 @@
                 }
                 axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, JSON.stringify(this.dakimakura))
                 .then(function (response) {
+                    self.loading = false;
                     console.log(response);
                     self.$router.push(`${self.dakimakuraPath}`);
                 })
                 .catch(function (error) {
                     console.log(error);
+                    self.loading = false;
                 });
             },
             sendImage() {
@@ -150,25 +156,29 @@
                     self.sendData();
                     return; 
                 }
+                this.loading = true;
                 const body = { "fileName": this.file.name , "fileType": this.file.type};
                 axios.post(this.preSignUrl, JSON.stringify(body)).then((response) => {
-
-                    this.imageUploadUrl = response.data;
+                    self.imageUploadUrl = response.data;
                     const header = { headers : 
                         { 'Content-Type': this.file.type }
                     }
                     axios.put(this.imageUploadUrl, this.file, header).then(function() {
                         self.sendData();
                     });
+                }).catch((error) => {
+                    console.log(error);
+                    this.loading = false;
                 });
             }
         },
         mounted: function(){
             axios.get(`${this.ApiUrl}${this.material}`).then((response) => {
-                this.materials = response.data;            
+                this.materials = response.data;
             })
             .catch(function(error) {
                 console.log(error);
+                this.loading = false;
                 return null;
             });
         }
