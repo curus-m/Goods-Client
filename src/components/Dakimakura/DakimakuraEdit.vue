@@ -67,7 +67,19 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-3 col-md-4 labelColumn">
+                            <label>메모</label>
+                        </div>
+                        <div class="col-sm-9 col-md-4 inputColumn">
+                            <textarea v-model="dakimakura.description" class="form-control">
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="row">
                         <button type="submit" class= "btn btn-primary">전송</button>
+                        <router-link tag="button" class="btn btn-info" id="button" to="/dakimakura/">
+                          뒤로
+                        </router-link>
                         <div v-if="errorData">{{errorData}}</div>
                     </div>
                 </form>
@@ -183,7 +195,7 @@ export default {
                 .then((response) => {
                     console.log("Download Complete");
                     self.dakimakura = response.data;
-                    const material  = self.materials.find(item => item.value == self.dakimakura.material);
+                    const material  = self.materials.find(item => item.text == self.dakimakura.material);
                     self.selectedMaterial = material;
                 })
                 .catch(function(error) {

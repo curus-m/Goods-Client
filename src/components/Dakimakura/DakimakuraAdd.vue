@@ -3,7 +3,7 @@
         <div class="loading" v-if="loading">
             Loading...
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid" v-if="!loading">
             <div class="row">
                 <div class="col-sm-1 col-md-4"></div>
                 <div class="col-sm-7 col-md-6">
@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-sm-1 col-md-4"></div>
             </div>  
-            <div class="row" v-if="!loading">
+            <div class="row">
                 <div class="col-sm-1 col-md-4"></div>
                 <div class="col-sm-7 col-md-6">
                 <form method="post" id="dakimakuraForm" @submit="checkForm" accept-charset="UTF-8">
@@ -64,6 +64,16 @@
                         </div>
                         <div class="col-sm-9 col-md-4 inputColumn">
                             <input type="file" id="file" ref="file" >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-4 labelColumn">
+                            <label for="description">메모</label>
+                        </div>
+                        <div class="col-sm-9 col-md-4 inputColumn">
+                            <textarea v-model="dakimakura.description" class="form-control">
+
+                            </textarea>
                         </div>
                     </div>
                     <div class="row">
