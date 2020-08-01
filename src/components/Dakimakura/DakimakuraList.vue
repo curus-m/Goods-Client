@@ -1,68 +1,70 @@
 <template>
-    <div class="container-fluid">
-        <div class="row row-cols-1" style="text-align:center">
-            <h1> {{msg}} </h1>
-        </div>
-        <div class="row">
-            <div class="buttons col-sm-8 col-md-10">
+    <div>
+        <div class="container-fluid">
+            <div class="row row-cols-1" style="text-align:center">
+                <h1> {{msg}} </h1>
             </div>
-            <div class="buttons col-sm-4 col-md-2">
-                <router-link tag="button" class="btn btn-danger" id="button" to="/dakimakura/add/">
-                  New
-                </router-link>
-                <router-link tag="button" class="btn btn-info" id="button" to="/dakimakura/search">
-                  search
-                </router-link>
-            </div>
-        </div>
-        <div class="loading" v-if="loading">
-            Loading...
-        </div>
-        <div class="row" v-if="!loading">
-            <div class="col col-lg-1">
-            
-            </div>
-            <div class="row col-lg-10 col-md-11" >
-                <div class="col-lg-2 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
-                    <router-link :to="targetUrl+daki.id" >
-                        <img class="dakiThumbnail" :alt="daki.name" :src="imgUrl+daki.image">
+            <div class="row">
+                <div class="buttons col-sm-8 col-md-10">
+                </div>
+                <div class="buttons col-sm-4 col-md-2">
+                    <router-link tag="button" class="btn btn-danger" id="button" to="/dakimakura/add/">
+                    New
                     </router-link>
-                    <div class="dakiName">
-                        <label>
-                            {{daki.name}}
-                        </label>
-                    </div>
+                    <router-link tag="button" class="btn btn-info" id="button" to="/dakimakura/search">
+                    search
+                    </router-link>
                 </div>
             </div>
-            <div class="col col-lg-1">
-        
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-lg-1"></div>
-            <div class="row col-lg-10 col-md-11"> 
-                <span v-for="pageNum in pages" v-bind:key="pageNum" >
-                    <span v-on:click="getDakimakuras(pageNum)" v-if="pageNum != page" class="dakiPage_active">
-                        <router-link :to="pageUrl+pageNum">
-                            {{pageNum}}
+            <vue-loading v-bind:isShow="loading"></vue-loading>   
+            <div class="row" v-if="!loading">
+                <div class="col col-lg-1">
+                
+                </div>
+                <div class="row col-lg-10 col-md-11" >
+                    <div class="col-lg-2 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
+                        <router-link :to="targetUrl+daki.id" >
+                            <img class="dakiThumbnail" :alt="daki.name" :src="imgUrl+daki.image">
                         </router-link>
-                    </span>
-                    <span v-else class="dakiPage">
-                        {{pageNum}} 
-                    </span>
-                </span>
+                        <div class="dakiName">
+                            <label>
+                                {{daki.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-lg-1">
+            
+                </div>
             </div>
-            <div class="col col-lg-1"></div>
+            <div class="row">
+                <div class="col col-lg-1"></div>
+                <div class="row col-lg-10 col-md-11"> 
+                    <span v-for="pageNum in pages" v-bind:key="pageNum" >
+                        <span v-on:click="getDakimakuras(pageNum)" v-if="pageNum != page" class="dakiPage_active">
+                            <router-link :to="pageUrl+pageNum">
+                                {{pageNum}}
+                            </router-link>
+                        </span>
+                        <span v-else class="dakiPage">
+                            {{pageNum}} 
+                        </span>
+                    </span>
+                </div>
+                <div class="col col-lg-1"></div>
+            </div>
         </div>
-        
     </div>
 </template>
 
 <script>
-
+import VueLoading from "../etc/Loading.vue";
 const axios = require('axios');
 export default {
     name: 'dakimakuraList',
+    components: {
+        VueLoading
+    },
     data() {
         return { 
             msg: "Daki System", 
@@ -110,10 +112,6 @@ export default {
     
 }
 </script>
-
-
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .dakiThumbnail {
     width: 100%;
@@ -139,10 +137,5 @@ div.btn-group {
     font-size: 13px;
     color: black;
     margin: 0 10px 0 10px;
-}
-.loading{
-    width: 100%;
-    height: 100%;
-    position: relative;
 }
 </style>

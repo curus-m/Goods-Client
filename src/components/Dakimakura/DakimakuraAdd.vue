@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div class="loading" v-if="loading">
-            Loading...
-        </div>
+        <vue-loading v-bind:isShow="loading"></vue-loading>   
         <div class="container-fluid" v-if="!loading">
             <div class="row">
                 <div class="col-sm-1 col-md-4"></div>
@@ -91,11 +89,12 @@
 <script>
     import DatePicker from 'vue2-datepicker';
     import VSelect from '@alfsnd/vue-bootstrap-select';
+    import VueLoading from "../etc/Loading.vue";
     import 'vue2-datepicker/index.css';
     const axios = require('axios');
     export default {
         name: 'dakimakuraAdd',
-        components: { DatePicker, VSelect },
+        components: { DatePicker, VSelect, VueLoading },
         data() { return { 
             file : '',
             dakimakura: {

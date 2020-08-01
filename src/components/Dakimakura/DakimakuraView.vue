@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div class="loading" v-if="loading">
-            Loading... (ID : {{ this.$route.params.id}})
-        </div>
+        <vue-loading v-bind:isShow="loading"></vue-loading>
         <div class="container-fluid" v-if="dakimakura">
             <div class="row">
                 <div class="col-sm-1 col-md-3"></div>
@@ -83,8 +81,10 @@
     </div>
 </template>
 <script>
+    
     const axios = require('axios');
     import VuePureLightbox from 'vue-pure-lightbox'
+    import VueLoading from "../etc/Loading.vue";  
     // import $ from 'jquery'
     export default {
         name: "dakimakuraView",
@@ -97,7 +97,7 @@
                 loading: true
             }
         },
-        components : { VuePureLightbox },
+        components : { VuePureLightbox, VueLoading },
         methods: {
             getPrev(id) {
                 const prevNum = id-1;
