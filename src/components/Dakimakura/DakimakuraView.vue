@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3 col-md-4 labelColumn">
+                        <div class="dakiBrand col-sm-3 col-md-4">
                             <label>메모</label>
                         </div>
                         <div class="col-sm-9 col-md-4 inputColumn">

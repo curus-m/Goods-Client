@@ -185,6 +185,8 @@ export default {
         axios.get(`${this.ApiUrl}${this.material}`).then((response) => {
             self.materials = response.data;
             self.loading = false;
+            const material  = self.materials.find(item => item.text == self.dakimakura.material);
+            self.selectedMaterial = material;
         })
         .catch(function(error) {
             console.log(error);

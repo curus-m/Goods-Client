@@ -5,15 +5,21 @@
                 <h1> {{msg}} </h1>
             </div>
             <div class="row">
-                <div class="buttons col-sm-8 col-md-10">
+                <div class="col col-lg-1">
+                
                 </div>
-                <div class="buttons col-sm-4 col-md-2">
-                    <router-link tag="button" class="btn btn-danger" id="button" to="/dakimakura/add/">
-                    New
+                <div class="row col-lg-10 col-md-11 buttons">
+                    <router-link tag="button" class="btn btn-danger" id="newButton" to="/dakimakura/add/">
+                        New
                     </router-link>
-                    <router-link tag="button" class="btn btn-info" id="button" to="/dakimakura/search">
-                    search
-                    </router-link>
+                    <input type="text" name="query" class="form-control" id="searchBox" v-model="query">
+                    <button class="btn btn-info" id="searchButton" v-on:click="search()">
+                        Search
+                    </button>
+                      
+                </div>
+                <div class="col col-lg-1">
+                    
                 </div>
             </div>
             <vue-loading v-bind:isShow="loading"></vue-loading>   
@@ -74,7 +80,8 @@ export default {
             pages: 0,
             page: 0,
             pageUrl: `${this.dakimakuraPath.slice(0,-1)}?page=`,
-            loading: true
+            loading: true,
+            query: ""
             }
     },
     methods: {
@@ -90,6 +97,11 @@ export default {
             .catch(function(error) {
                 console.log(error);
             });
+        },
+        search(){
+            console.log(`query: ${this.query}`);
+            // return "/dakimakura/search"+this.query;
+            this.$router.push(`${this.dakimakuraPath}?&query=${this.query}`);
         }
         
     },
@@ -137,5 +149,22 @@ div.btn-group {
     font-size: 13px;
     color: black;
     margin: 0 10px 0 10px;
+}
+#newButton{
+    position: absolute;
+    left:2%;
+}
+#searchButton {
+    position: absolute;
+    right:2%;
+}
+#searchBox {
+    position: absolute;
+    right:8%;
+    width:20%;
+}
+.buttons {
+    position: relative;
+    height: 100px;
 }
 </style>
