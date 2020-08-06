@@ -99,19 +99,19 @@ export default {
             });
         },
         search(){
-            console.log(`query: ${this.query}`);
-            // return "/dakimakura/search"+this.query;
-            this.$router.push(`${this.dakimakuraPath}?&query=${this.query}`);
+            console.log(`query: ${this.query}`);        
+            window.location.href=`${this.dakimakuraPath}?&query=${this.query}`;
         }
         
     },
     mounted(){
         let page = this.$route.query.page ? this.$route.query.page : 1;
         this.page = page;
-        let query = this.$route.query.query ? this.$route.query.query: '';
+        let searchQuery = this.$route.query.query ? this.$route.query.query: '';
         let category = this.$route.query.category ? this.$route.query.category : 0;
+        this.query = searchQuery;
         // console.log (`page : ${page} , query: ${query}`);
-        axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${page}&query=${query}&category=${category}`)
+        axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${page}&query=${searchQuery}&category=${category}`)
             .then((response) => {
                 this.dakiList = response.data.dakimakuras;
                 this.pages = response.data.totalPages;
