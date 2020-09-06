@@ -7,10 +7,14 @@
                 <div class="col-sm-7 col-md-6">
                     <h1 class="title">{{dakimakura.name}}</h1>
                 </div>
-                <div class="col-sm-1 col-md-3">
-                    <router-link tag="button" class="btn btn-warning" id="button" :to="editUrl+dakimakura.id">
+                <div class="col-sm-1 col-md-3 buttons">
+                    <button class="btn btn-danger" id="deleteButton" v-on:click="deleteConfirm()">
+                    Delete
+                    </button> 
+                    <router-link tag="button" class="btn btn-warning" id="editButton" :to="editUrl+dakimakura.id">
                     Edit
                     </router-link>
+                    
                 </div>
             </div>
             <div class="row">
@@ -71,9 +75,9 @@
             <div class="row">
                 <div class="col-sm-1 col-md-3"></div>
                 <div class="col-sm-7 col-md-6">
-                    <a :href="getPrev(dakimakura.id)">&lt;&lt; Prev </a>
+                    <!-- <a :href="getPrev(dakimakura.id)">&lt;&lt; Prev </a> -->
                     <router-link :to="targetUrl">Main</router-link>
-                    <a :href="getNext(dakimakura.id)"> Next &gt;&gt; </a>
+                    <!-- <a :href="getNext(dakimakura.id)"> Next &gt;&gt; </a> -->
                 </div>
                 <div class="col-sm-1 col-md-3"></div>
             </div>
@@ -92,6 +96,7 @@
             return { dakimakura : '',
                 targetUrl : `${this.dakimakuraPath}`,
                 editUrl: `${this.dakimakuraPath}edit/`,
+                deleteUrl: `${this.dakimakuraPath}delete/`,
                 imgUrl : `${this.imageResourceUrl}${this.dakimakuraPath}`,
                 id: this.$route.params.id,
                 loading: true
@@ -109,6 +114,18 @@
             },
             getData(dakimakura) {
                 return `{lightbox: ${dakimakura.id}, title: ${dakimakura.name}}`
+            },
+            deleteConfirm() {
+                if(confirm("Are you sure?")) {
+                    var url = `${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`;
+                    axios.delete(url).then(() => {
+                        console.log("Delete Complete");
+                        this.$router.push(`${this.targetUrl}`);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                }
             }
         },
         mounted(){
@@ -134,4 +151,16 @@
         font-size: 16px;
         font-weight: 700;
     }
+    .buttons{ 
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    #editButton {
+        margin-right: 5px;
+        height: 45px;
+    }
+    #deleteButton{
+        height: 45px;
+    }
+    
 </style>

@@ -9,14 +9,13 @@
                 
                 </div>
                 <div class="row col-lg-10 col-md-11 buttons">
-                    <router-link tag="button" class="btn btn-danger" id="newButton" to="/dakimakura/add/">
-                        New
-                    </router-link>
-                    <input type="text" name="query" class="form-control" id="searchBox" v-model="query">
                     <button class="btn btn-info" id="searchButton" v-on:click="search()">
                         Search
                     </button>
-                      
+                    <input type="text" name="query" class="form-control" id="searchBox" v-model="query" v-on:keyup.enter="search()">
+                    <router-link tag="button" class="btn btn-danger" id="newButton" to="/dakimakura/add/">
+                        New
+                    </router-link> 
                 </div>
                 <div class="col col-lg-1">
                     
@@ -47,14 +46,14 @@
                 <div class="col col-lg-1"></div>
                 <div class="row col-lg-10 col-md-11"> 
                     <span v-for="pageNum in pages" v-bind:key="pageNum" >
-                        <span v-on:click="getDakimakuras(pageNum)" v-if="pageNum != page" class="dakiPage_active">
-                            <router-link :to="pageUrl+pageNum">
+                        <button v-on:click="getDakimakuras(pageNum)" v-if="pageNum != page" class="dakiPage_active btn btn-link">
+                            <router-link :to="pageUrl+pageNum" >
                                 {{pageNum}}
                             </router-link>
-                        </span>
-                        <span v-else class="dakiPage">
+                        </button>
+                        <button v-else class="dakiPage btn btn-link">
                             {{pageNum}} 
-                        </span>
+                        </button>
                     </span>
                 </div>
                 <div class="col col-lg-1"></div>
@@ -150,21 +149,22 @@ div.btn-group {
     color: black;
     margin: 0 10px 0 10px;
 }
-#newButton{
-    position: absolute;
-    left:2%;
-}
-#searchButton {
-    position: absolute;
-    right:2%;
-}
 #searchBox {
-    position: absolute;
-    right:8%;
-    width:20%;
+    width: 40%;
+    margin-right: 5px;
+    height: 45px;
 }
 .buttons {
+    height: 50px;
+    display: flex;
     position: relative;
-    height: 100px;
+    flex-direction: row-reverse;
+}
+#searchButton {
+    height: 45px;
+}
+#newButton {
+    margin-right: 5px;
+    height: 45px;
 }
 </style>
