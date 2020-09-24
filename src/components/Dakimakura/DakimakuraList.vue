@@ -9,6 +9,9 @@
                 
                 </div>
                 <div class="row col-lg-10 col-md-11 buttons">
+                    <button class="btn btn-warning" id="searchClear" v-on:click="clear()" v-if="query">
+                        Clear
+                    </button>
                     <button class="btn btn-info" id="searchButton" v-on:click="search()">
                         Search
                     </button>
@@ -16,6 +19,7 @@
                     <router-link tag="button" class="btn btn-danger" id="newButton" to="/dakimakura/add/">
                         New
                     </router-link> 
+                    
                 </div>
                 <div class="col col-lg-1">
                     
@@ -100,6 +104,10 @@ export default {
         search(){
             console.log(`query: ${this.query}`);        
             window.location.href=`${this.dakimakuraPath}?&query=${this.query}`;
+        },
+        clear() {
+            this.query = "";
+            window.location.href=`${this.dakimakuraPath}?&query=${this.query}`;
         }
         
     },
@@ -152,6 +160,9 @@ div.btn-group {
 #searchBox {
     width: 40%;
     margin-right: 5px;
+    height: 45px;
+}
+#searchClear {
     height: 45px;
 }
 .buttons {
