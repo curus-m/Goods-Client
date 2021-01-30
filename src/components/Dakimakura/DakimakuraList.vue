@@ -33,7 +33,7 @@
                 <div class="row col-lg-10 col-md-11" >
                     <div class="col-lg-2 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
                         <router-link :to="targetUrl+daki.id" >
-                            <img class="dakiThumbnail" :alt="daki.name" :src="imgUrl+daki.image">
+                            <img class="dakiThumbnail" :alt="daki.name" :src="thumbnailUrl+daki.image">
                         </router-link>
                         <div class="dakiName">
                             <label>
@@ -84,7 +84,8 @@ export default {
             page: 0,
             pageUrl: `${this.dakimakuraPath.slice(0,-1)}?page=`,
             loading: true,
-            query: ""
+            query: "",
+            thumbnailUrl: `${this.ApiUrl}/thumbnails${this.dakimakuraPath}`
             }
     },
     methods: {
