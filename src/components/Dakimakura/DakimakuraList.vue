@@ -27,11 +27,11 @@
             </div>
             <vue-loading v-bind:isShow="loading"></vue-loading>   
             <div class="row" v-if="!loading">
-                <div class="col col-lg-1">
+                <div class="col col-lg-2">
                 
                 </div>
-                <div class="row col-lg-10 col-md-11" >
-                    <div class="col-lg-2 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
+                <div class="row col-lg-8 col-md-11" >
+                    <div class="col-lg-6 col-md-6 col-sm-6" v-for="daki in dakiList" v-bind:key="daki.id">
                         <router-link :to="targetUrl+daki.id" >
                             <img class="dakiThumbnail" :alt="daki.name" :src="thumbnailUrl+daki.image">
                         </router-link>
@@ -41,12 +41,15 @@
                             </label>
                         </div>
                     </div>
+                    
                 </div>
-                <div class="col col-lg-1">
+                
+                <div class="col col-lg-2">
             
                 </div>
             </div>
-            <div class="row">
+            
+            <!-- <div class="row">
                 <div class="col col-lg-1"></div>
                 <div class="row col-lg-10 col-md-11"> 
                     <span v-for="pageNum in pages" v-bind:key="pageNum" >
@@ -61,18 +64,21 @@
                     </span>
                 </div>
                 <div class="col col-lg-1"></div>
-            </div>
+            </div> -->
         </div>
+        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
     </div>
+    
 </template>
 
 <script>
+import InfiniteLoading from 'vue-infinite-loading';
 import VueLoading from "../etc/Loading.vue";
 const axios = require('axios');
 export default {
     name: 'dakimakuraList',
     components: {
-        VueLoading
+        VueLoading, InfiniteLoading
     },
     data() {
         return { 
@@ -89,19 +95,19 @@ export default {
             }
     },
     methods: {
-        getDakimakuras(pageNum){
-            this.page = pageNum;
-            this.loading = true;
-            axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${pageNum}`)
-            .then((response) => {
-                this.dakiList = response.data.dakimakuras;
-                this.pages = response.data.totalPages;
-                this.loading = false;
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-        },
+        // getDakimakuras(pageNum){
+        //     this.page = pageNum;
+        //     this.loading = true;
+        //     axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${pageNum}`)
+        //     .then((response) => {
+        //         this.dakiList = response.data.dakimakuras;
+        //         this.pages = response.data.totalPages;
+        //         this.loading = false;
+        //     })
+        //     .catch(function(error) {
+        //         console.log(error);
+        //     });
+        // },
         search(){
             console.log(`query: ${this.query}`);        
             window.location.href=`${this.dakimakuraPath}?&query=${this.query}`;
@@ -109,17 +115,33 @@ export default {
         clear() {
             this.query = "";
             window.location.href=`${this.dakimakuraPath}?&query=${this.query}`;
-        }
+        },
+        infiniteHandler($state) {
+            this.page = this.page+1;
+            this.loading = true;
+            axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${this.page}`)
+            .then((response) => {
+                this.dakiList.push(...response.data.dakimakuras);                
+                this.pages = response.data.totalPages;
+                this.loading = false;
+                $state.loaded();    
+            })
+            .catch(function(error) {
+                console.log(error);
+                $state.complete();
+            });
+            
+        },
         
     },
     mounted(){
-        let page = this.$route.query.page ? this.$route.query.page : 1;
+        let page = this.$route.query.page ? this.$route.query.page : 0;
         this.page = page;
         let searchQuery = this.$route.query.query ? this.$route.query.query: '';
-        let category = this.$route.query.category ? this.$route.query.category : 0;
+        // let category = this.$route.query.category ? this.$route.query.category : 0;
         this.query = searchQuery;
         // console.log (`page : ${page} , query: ${query}`);
-        axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${page}&query=${searchQuery}&category=${category}`)
+        /*axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${page}&query=${searchQuery}&category=${category}`)
             .then((response) => {
                 this.dakiList = response.data.dakimakuras;
                 this.pages = response.data.totalPages;
@@ -127,16 +149,12 @@ export default {
             })
             .catch(function(error) {
                 console.log(error);
-            });
+        });*/
         }
     
 }
 </script>
 <style scoped lang="scss">
-.dakiThumbnail {
-    width: 100%;
-    height: 285px;
-}
 .dakiName {
     text-align: center;
     font-size: 13px;
