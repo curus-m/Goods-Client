@@ -25,13 +25,11 @@
                     
                 </div>
             </div>
-            <vue-loading v-bind:isShow="loading"></vue-loading>   
-            <div class="row" v-if="!loading">
+            <div class="row" >
                 <div class="col col-lg-2">
-                
                 </div>
-                <div class="row col-lg-8 col-md-11" >
-                    <div class="col-lg-6 col-md-6 col-sm-6" v-for="daki in dakiList" v-bind:key="daki.id">
+                <div class="row col-lg-8 col-md-11">
+                    <div class="col-lg-4 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
                         <router-link :to="targetUrl+daki.id" >
                             <img class="dakiThumbnail" :alt="daki.name" :src="thumbnailUrl+daki.image">
                         </router-link>
@@ -41,11 +39,8 @@
                             </label>
                         </div>
                     </div>
-                    
                 </div>
-                
                 <div class="col col-lg-2">
-            
                 </div>
             </div>
             
@@ -65,20 +60,20 @@
                 </div>
                 <div class="col col-lg-1"></div>
             </div> -->
+            <infinite-loading @infinite="infiniteHandler"></infinite-loading>
         </div>
-        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+        
     </div>
     
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading';
-import VueLoading from "../etc/Loading.vue";
 const axios = require('axios');
 export default {
     name: 'dakimakuraList',
     components: {
-        VueLoading, InfiniteLoading
+    InfiniteLoading
     },
     data() {
         return { 
@@ -121,10 +116,15 @@ export default {
             this.loading = true;
             axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${this.page}`)
             .then((response) => {
-                this.dakiList.push(...response.data.dakimakuras);                
-                this.pages = response.data.totalPages;
-                this.loading = false;
-                $state.loaded();    
+                if(response.data.dakimakuras.length){
+                    this.dakiList.push(...response.data.dakimakuras); 
+                    this.pages = response.data.totalPages;
+                    this.loading = false;
+                    $state.loaded();    
+                }
+                else {
+                    $state.complete();
+                } 
             })
             .catch(function(error) {
                 console.log(error);
