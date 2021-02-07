@@ -102,7 +102,7 @@
                 brand: '',
                 price : '',
                 releasedate : '',
-                material: 0
+                material: ""
             },
             errorData: '',
             selectedMaterial : '',
@@ -114,7 +114,6 @@
         methods: {
             checkForm: function (e) {
                 let errors = [];
-
                 if (!this.dakimakura.name) {
                     errors.push("Name required.");
                 }
@@ -139,52 +138,25 @@
                 } else {
                     this.errorData = '';
                     e.preventDefault();
-                    this.sendImage();    
+                    this.sendData();    
                 }
             },
             sendData() {
-                const self = this;
-                if(this.file) { 
-                    this.dakimakura.fileName = this.file.name;
-                } else {
-                    this.dakimakura.fileName = null;
-                }
-                axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, JSON.stringify(this.dakimakura))
-                .then(function (response) {
-                    self.loading = false;
-                    console.log(response);
-                    self.$router.push(`${self.dakimakuraPath}`);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    self.loading = false;
-                });
-            },
-            sendImage() {
-                const self = this;
+                const formData = new FormData();
                 this.file = this.$refs.file.files[0];
-                if(!this.file) { 
-                    self.sendData();
-                    return; 
-                }
                 this.loading = true;
-                const body = { "fileName": this.file.name , "fileType": this.file.type};
-                axios.post(this.preSignUrl, JSON.stringify(body)).then((response) => {
-                    self.imageUploadUrl = response.data;
-                    const header = { headers : 
-                        { 'Content-Type': this.file.type }
-                    }
-                    axios.put(this.imageUploadUrl, this.file, header).then(function() {
-                        self.sendData();
-                    });
-                }).catch((error) => {
+                formData.append("file", this.file);
+                formData.append("data", JSON.stringify(this.dakimakura));
+                axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, formData)
+                    .then(function (result) {
+                    console.log(result);
+                    }, function (error) {
                     console.log(error);
-                    this.loading = false;
-                });
+                    });
             }
-        },
-        mounted: function(){
-            axios.get(`${this.ApiUrl}${this.material}`).then((response) => {
+    },
+    mounted: function(){
+            axios.get(`${this.ApiUrl}${this.materialUrl}`).then((response) => {
                 this.materials = response.data;
             })
             .catch(function(error) {
@@ -193,8 +165,7 @@
                 return null;
             });
         }
-    }
-   
+}
 </script>
 <style scoped>
 
