@@ -107,7 +107,6 @@ export default {
     methods : {
        checkForm: function (e) {
                 let errors = [];
-
                 if (!this.dakimakura.name) {
                     errors.push("Name required.");
                 }
@@ -132,57 +131,29 @@ export default {
                 } else {
                     this.errorData = '';
                     e.preventDefault();
-                    this.sendImage();
+                    this.sendData();
                 }
             },
             sendData() {
-                this.loading = true;
-                if(this.file) { 
-                    this.dakimakura.fileName = this.file.name;
-                } else {
-                    this.dakimakura.fileName = "";
-                    this.dakimakura.image = "";
-                }
-                const endpoint = `${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`;
-                const self = this;
-                axios({
-                    method: 'put',
-                    url : endpoint, 
-                    data: JSON.stringify(this.dakimakura)
-                }).then(function (response) {
-                    console.log(response);
-                    console.log("Upload OK!");
-                    // redirect
-                    self.$router.push(`${self.dakimakuraPath}${self.$route.params.id}`)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            sendImage() {
-                const self = this;
+                const formData = new FormData();
                 this.file = this.$refs.file.files[0];
-                if(!this.file) { 
-                    self.sendData();
-                    return; 
-                }
-                const body = { "fileName": this.file.name , "fileType": this.file.type};
-                
-                axios.post(this.preSignUrl, JSON.stringify(body)).then((response) => {
-
-                    this.imageUploadUrl = response.data;
-                    const header = { headers : 
-                        { 'Content-Type': this.file.type }
-                    }
-                    axios.put(this.imageUploadUrl, this.file, header).then(function() {
-                        self.sendData();
-                    });
+                this.loading = true;
+                formData.append("file", this.file);
+                formData.append("data", JSON.stringify(this.dakimakura));
+                axios.put(`${this.ApiUrl}${this.dakimakuraPath}`, formData)
+                    .then(function (result) {
+                        console.log(result);
+                        console.log("Upload OK!");
+                        // redirect
+                        this.$router.push(`${this.dakimakuraPath}${this.$route.params.id}`)
+                    }, function (error) {
+                        console.log(error);
                 });
             }
     },
     mounted: function(){
         const self = this;
-        axios.get(`${this.ApiUrl}${this.material}`).then((response) => {
+        axios.get(`${this.ApiUrl}${this.materialUrl}`).then((response) => {
             self.materials = response.data;
             self.loading = false;
             const material  = self.materials.find(item => item.text == self.dakimakura.material);
@@ -192,7 +163,7 @@ export default {
             console.log(error);
             return null;
         });
-        axios.get(`${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`)
+        axios.get(`${this.ApiUrl}${this.dakimakuraPath}`+this.$route.params.id)
                 .then((response) => {
                     console.log("Download Complete");
                     self.dakimakura = response.data;
