@@ -149,9 +149,10 @@
                 formData.append("data", JSON.stringify(this.dakimakura));
                 axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, formData)
                     .then(function (result) {
-                    console.log(result);
+                        console.log(result);
                     }, function (error) {
-                    console.log(error);
+                        console.log(error);
+                        this.errorData = error;
                     });
             }
     },

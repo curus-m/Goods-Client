@@ -135,17 +135,17 @@ export default {
                 }
             },
             sendData() {
+                const self = this;
                 const formData = new FormData();
                 this.file = this.$refs.file.files[0];
                 this.loading = true;
                 formData.append("file", this.file);
                 formData.append("data", JSON.stringify(this.dakimakura));
-                axios.put(`${this.ApiUrl}${this.dakimakuraPath}`, formData)
-                    .then(function (result) {
-                        console.log(result);
+                axios.put(`${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`, formData)
+                    .then(function () {
                         console.log("Upload OK!");
                         // redirect
-                        this.$router.push(`${this.dakimakuraPath}${this.$route.params.id}`)
+                        self.$router.push(`${self.dakimakuraPath}${self.$route.params.id}`)
                     }, function (error) {
                         console.log(error);
                 });
@@ -163,12 +163,13 @@ export default {
             console.log(error);
             return null;
         });
-        axios.get(`${this.ApiUrl}${this.dakimakuraPath}`+this.$route.params.id)
+        axios.get(`${this.ApiUrl}${this.dakimakuraPath}${this.$route.params.id}`)
                 .then((response) => {
                     console.log("Download Complete");
                     self.dakimakura = response.data;
                     const material  = self.materials.find(item => item.text == self.dakimakura.material);
                     self.selectedMaterial = material;
+                    self.dakimakura.originalImage = response.data.image; 
                 })
                 .catch(function(error) {
                     console.log(error);
