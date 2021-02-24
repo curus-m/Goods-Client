@@ -145,11 +145,13 @@
                 const formData = new FormData();
                 this.file = this.$refs.file.files[0];
                 this.loading = true;
+                const self = this;
                 formData.append("file", this.file);
                 formData.append("data", JSON.stringify(this.dakimakura));
                 axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, formData)
                     .then(function (result) {
                         console.log(result);
+                        self.$router.push(`${self.dakimakuraPath}${result.id}`)
                     }, function (error) {
                         console.log(error);
                         this.errorData = error;
