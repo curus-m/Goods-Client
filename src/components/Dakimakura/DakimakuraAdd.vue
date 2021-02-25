@@ -151,7 +151,7 @@
                 axios.post(`${this.ApiUrl}${this.dakimakuraPath}`, formData)
                     .then(function (result) {
                         console.log(result);
-                        self.$router.push(`${self.dakimakuraPath}${result.id}`)
+                        self.$router.push(`${self.dakimakuraPath}${result.data.id}`)
                     }, function (error) {
                         console.log(error);
                         this.errorData = error;
