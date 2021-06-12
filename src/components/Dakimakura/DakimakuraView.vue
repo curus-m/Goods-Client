@@ -28,42 +28,42 @@
                 </div>
                 <div class="col-sm-3 col-md-2">
                     <div class="row">
-                        <div class="dakiBrand col-sm-4 col-md-4">
-                            <label>제작 서클/브랜드</label> 
+                        <div class="dakiBrand col-sm-5 col-md-5">
+                            <label>제작</label> 
                         </div>
-                        <div class="col-sm-8 col-md-8">
+                        <div class="col-sm-7 col-md-7">
                             <span>{{dakimakura.brand}}</span> 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="dakiBrand col-sm-4 col-md-4">
+                        <div class="dakiBrand col-sm-5 col-md-5">
                             <label>가격</label>
                         </div>
-                        <div class="col-sm-8 col-md-8"> 
+                        <div class="col-sm-7 col-md-7">
                             <span>{{dakimakura.price}}</span> 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="dakiBrand col-sm-4 col-md-4">
+                        <div class="dakiBrand col-sm-5 col-md-5">
                             <label>재질</label>
                         </div>
-                        <div class="col-sm-8 col-md-8"> 
+                        <div class="col-sm-7 col-md-7"> 
                             <span>{{dakimakura.material}}</span> 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="dakiBrand col-sm-4 col-md-4">
+                        <div class="dakiBrand col-sm-5 col-md-5">
                             <label>발매일</label>
                         </div>
-                        <div class="col-sm-8 col-md-8">
+                        <div class="col-sm-7 col-md-7">
                             <span>{{dakimakura.releasedate}}</span> 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="dakiBrand col-sm-3 col-md-4">
+                        <div class="dakiBrand col-sm-5 col-md-5">
                             <label>메모</label>
                         </div>
-                        <div class="col-sm-9 col-md-4 inputColumn">
+                        <div class="col-sm-7 col-md-7 inputColumn">
                             <span>{{dakimakura.description}}</span> 
                         </div>
                     </div>

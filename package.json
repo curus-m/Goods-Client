@@ -5,7 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev-serve": "vue-cli-service serve --mode development",
+    "prod-serve": "vue-cli-service serve --mode production",
+    "dev-build": "vue-cli-service build --mode development",
+    "prod-build": "vue-cli-service build --mode production"
   },
   "dependencies": {
     "@alfsnd/vue-bootstrap-select": "^0.4.4",
@@ -27,6 +31,7 @@
     "@vue/cli-plugin-router": "^4.4.5",
     "@vue/cli-service": "^4.1.1",
     "babel-eslint": "^10.1.0",
+    "dotenv-webpack": "^7.0.2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.8",

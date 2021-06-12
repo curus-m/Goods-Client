@@ -60,7 +60,7 @@
                 </div>
                 <div class="col col-lg-1"></div>
             </div> -->
-            <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+            <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading"></infinite-loading>
         </div>
         
     </div>
@@ -90,31 +90,26 @@ export default {
             }
     },
     methods: {
-        // getDakimakuras(pageNum){
-        //     this.page = pageNum;
-        //     this.loading = true;
-        //     axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${pageNum}`)
-        //     .then((response) => {
-        //         this.dakiList = response.data.dakimakuras;
-        //         this.pages = response.data.totalPages;
-        //         this.loading = false;
-        //     })
-        //     .catch(function(error) {
-        //         console.log(error);
-        //     });
-        // },
         search(){
-            console.log(`query: ${this.query}`);        
-            window.location.href=`${this.dakimakuraPath}?&query=${this.query}`;
+            console.log(`query: ${this.query}`);
+            this.page = 0;
+            this.dakiList = [];
+            this.$nextTick(() => {
+                this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+            });
         },
         clear() {
+            this.page = 0;
             this.query = "";
-            window.location.href=`${this.dakimakuraPath}?&query=${this.query}`;
+            this.dakiList = [];
+            this.$nextTick(() => {
+                this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+            });
         },
         infiniteHandler($state) {
             this.page = this.page+1;
             this.loading = true;
-            axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${this.page}`)
+            axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${this.page}&query=${this.query}`)
             .then((response) => {
                 if(response.data.dakimakuras.length){
                     this.dakiList.push(...response.data.dakimakuras); 
@@ -133,24 +128,7 @@ export default {
             
         },
         
-    },
-    mounted(){
-        let page = this.$route.query.page ? this.$route.query.page : 0;
-        this.page = page;
-        let searchQuery = this.$route.query.query ? this.$route.query.query: '';
-        // let category = this.$route.query.category ? this.$route.query.category : 0;
-        this.query = searchQuery;
-        // console.log (`page : ${page} , query: ${query}`);
-        /*axios.get(`${this.ApiUrl}${this.dakimakuraPath}?page=${page}&query=${searchQuery}&category=${category}`)
-            .then((response) => {
-                this.dakiList = response.data.dakimakuras;
-                this.pages = response.data.totalPages;
-                this.loading = false;
-            })
-            .catch(function(error) {
-                console.log(error);
-        });*/
-        }
+    }
     
 }
 </script>
