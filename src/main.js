@@ -10,7 +10,15 @@ Vue.prototype.ApiUrl = "http://192.168.0.39:3000"
 //"http://localhost:3000";
 Vue.prototype.dakimakuraPath = "/dakimakura/";
 Vue.prototype.materialUrl="/resource/material/";
-// Vue.prototype.preSignUrl="/getpresign"
+Vue.prototype.preSignUrl="/getpresign"
+Vue.prototype.config = {
+  production : {
+    message: "asdf"
+  },
+  development: {
+    message: "qwer"
+  }
+}
 new Vue({
   components: {
     VuePureLightbox
