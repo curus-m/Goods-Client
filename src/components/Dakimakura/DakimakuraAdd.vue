@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-sm-9 col-md-4 inputColumn">
                         <div class="input-group date">
-                        <date-picker v-model="dakimakura.releasedate" valueType="YYYY-MM-DD"></date-picker>
+                        <date-picker v-model="dakimakura.releasedate" valueType="YYYY-MM-DD" ></date-picker>
                         </div>
                     </div>
                     </div>
@@ -87,6 +87,8 @@
 </template>
 
 <script>
+    // import {ja, ko} from 'vue2-datepicker/locale'
+    import 'vue2-datepicker/locale/ja';
     import DatePicker from 'vue2-datepicker';
     import VSelect from '@alfsnd/vue-bootstrap-select';
     import VueLoading from "../etc/Loading.vue";

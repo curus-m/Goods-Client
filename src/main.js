@@ -13,10 +13,10 @@ Vue.prototype.materialUrl="/resource/material/";
 Vue.prototype.preSignUrl="/getpresign"
 Vue.prototype.config = {
   production : {
-    message: "asdf"
+    message: "production mode"
   },
   development: {
-    message: "qwer"
+    message: "development mode"
   }
 }
 new Vue({
