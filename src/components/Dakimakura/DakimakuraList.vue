@@ -5,23 +5,26 @@
                 <h1> {{msg}} </h1>
             </div>
             <div class="row">
-                <div class="col col-lg-1">
-                
-                </div>
-                <div class="row col-lg-10 col-md-11 buttons">
-                    <button class="btn btn-warning" id="searchClear" v-on:click="clear()" v-if="query">
-                        Clear
-                    </button>
-                    <button class="btn btn-info" id="searchButton" v-on:click="search()">
-                        Search
-                    </button>
-                    <input type="text" name="query" class="form-control" id="searchBox" v-model="query" v-on:keyup.enter="search()">
-                    <router-link tag="button" class="btn btn-danger" id="newButton" to="/dakimakura/add/">
-                        New
-                    </router-link> 
+                <div class="col col-lg-2 col-md-2">
                     
                 </div>
-                <div class="col col-lg-1">
+                <div class="col-lg-8 col-md-8 mb-4">
+                    <div class="input-group">
+                        <router-link tag="button" class="btn btn-success btn-sm" id="newButton" to="/dakimakura/add/">
+                            New
+                        </router-link> 
+                        <input type="text" name="query" class="form-control" id="searchBox" v-model="query" v-on:keyup.enter="search()">
+                        <button class="btn btn-info btn-sm" id="searchButton" v-on:click="search()">
+                            Search
+                        </button>                       
+                        <button class="btn btn-dark" id="searchClear" v-on:click="clear()" v-if="query">
+                            Clear
+                        </button>
+                        <input type="checkbox" class="btn-check" id="btn-check" autocomplete="off" v-model="isR18" v-on:click="toggle()"  aria-pressed="false">
+                        <label class="btn btn-danger" for="btn-check">R-18</label>
+                    </div>
+                </div>
+                <div class="col col-lg-2">
                     
                 </div>
             </div>
@@ -43,23 +46,6 @@
                 <div class="col col-lg-2">
                 </div>
             </div>
-            
-            <!-- <div class="row">
-                <div class="col col-lg-1"></div>
-                <div class="row col-lg-10 col-md-11"> 
-                    <span v-for="pageNum in pages" v-bind:key="pageNum" >
-                        <button v-on:click="getDakimakuras(pageNum)" v-if="pageNum != page" class="dakiPage_active btn btn-link">
-                            <router-link :to="pageUrl+pageNum" >
-                                {{pageNum}}
-                            </router-link>
-                        </button>
-                        <button v-else class="dakiPage btn btn-link">
-                            {{pageNum}} 
-                        </button>
-                    </span>
-                </div>
-                <div class="col col-lg-1"></div>
-            </div> -->
             <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading"></infinite-loading>
         </div>
         
@@ -86,8 +72,9 @@ export default {
             pageUrl: `${this.dakimakuraPath.slice(0,-1)}?page=`,
             loading: true,
             query: "",
-            thumbnailUrl: `${this.ApiUrl}/thumbnails${this.dakimakuraPath}`
-            }
+            thumbnailUrl: `${this.ApiUrl}/thumbnails${this.dakimakuraPath}`,
+            isR18: false
+            } 
     },
     methods: {
         search(){
@@ -127,6 +114,9 @@ export default {
             });
             
         },
+        toggle() {
+            this.isR18 = !this.isR18;
+        }
         
     }
     
@@ -153,26 +143,5 @@ div.btn-group {
     font-size: 13px;
     color: black;
     margin: 0 10px 0 10px;
-}
-#searchBox {
-    width: 40%;
-    margin-right: 5px;
-    height: 45px;
-}
-#searchClear {
-    height: 45px;
-}
-.buttons {
-    height: 50px;
-    display: flex;
-    position: relative;
-    flex-direction: row-reverse;
-}
-#searchButton {
-    height: 45px;
-}
-#newButton {
-    margin-right: 5px;
-    height: 45px;
 }
 </style>
