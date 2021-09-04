@@ -1,11 +1,12 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+// import Vue from 'vue'
+import { createWebHistory, createRouter } from "vue-router";
+// import VueRouter from 'vue-router'
 import Home from '../components/Home.vue'
 import DakimakuraList from '../components/Dakimakura/DakimakuraList.vue'
 import DakimakuraView from '../components/Dakimakura/DakimakuraView.vue'
 import DakimakuraAdd from '../components/Dakimakura/DakimakuraAdd.vue'
 import DakimakuraEdit from '../components/Dakimakura/DakimakuraEdit.vue'
-Vue.use(VueRouter)
+// Vue.use(VueRouter)
 
   const routes = [
   {
@@ -35,8 +36,9 @@ Vue.use(VueRouter)
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(),
+  // mode: 'history',
   // base: process.env.BASE_URL,
   routes: routes
 })

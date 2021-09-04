@@ -1,7 +1,8 @@
-import Vue from 'vue'
+import Vue, { createApp }  from 'vue'
 import App from './App.vue'
 import router from './router'
-import VuePureLightbox from 'vue-pure-lightbox'
+// import router from './router'
+// import VuePureLightbox from 'vue-pure-lightbox'
 
 Vue.config.productionTip = false
 Vue.prototype.imageResourceUrl = "http://192.168.0.39:3000/images"
@@ -19,10 +20,12 @@ Vue.prototype.config = {
     message: "development mode"
   }
 }
-new Vue({
-  components: {
-    VuePureLightbox
-  },
-  router,
-  render: h => h(App)
-}).$mount('#app')
+// new Vue({
+//   components: {
+//     VuePureLightbox
+//   },
+//   router,
+//   render: h => h(App)
+// }).$mount('#app')
+createApp(App).use(router).mount('#app')
+
