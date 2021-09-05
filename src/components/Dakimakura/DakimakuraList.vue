@@ -20,8 +20,8 @@
                         <button class="btn btn-dark" id="searchClear" v-on:click="clear()" v-if="query">
                             Clear
                         </button>
-                        <input type="checkbox" class="btn-check" id="btn-check" autocomplete="off" v-model="isR18" v-on:click="toggle()"  aria-pressed="false">
-                        <label class="btn btn-danger" for="btn-check">R-18</label>
+                        <input type="checkbox" class="btn-check" id="btn-check" autocomplete="off" v-on:click="toggle()"  aria-pressed="false">
+                        <label v-bind:class="r18Button" for="btn-check">{{isR18Message()}}</label>
                     </div>
                 </div>
                 <div class="col col-lg-2">
@@ -116,8 +116,20 @@ export default {
         },
         toggle() {
             this.isR18 = !this.isR18;
+        },
+        isR18Message() {
+            return this.isR18 ? "R-18 ON"  : "R-18 OFF";
         }
         
+    },
+    computed: {
+        r18Button: function() {
+            return {
+                'btn' : true,
+                'btn-danger' : this.isR18,
+                'btn-secondary' : !this.isR18
+            }
+        }
     }
     
 }
