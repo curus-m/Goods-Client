@@ -33,13 +33,15 @@
                 </div>
                 <div class="row col-lg-8 col-md-11">
                     <div class="col-lg-4 col-md-4 col-sm-4" v-for="daki in dakiList" v-bind:key="daki.id">
-                        <router-link :to="targetUrl+daki.id" >
-                            <img class="dakiThumbnail" :alt="daki.name" :src="thumbnailUrl+daki.image">
-                        </router-link>
-                        <div class="dakiName">
-                            <label>
-                                {{daki.name}}
-                            </label>
+                        <div v-if="isR18 || !daki.r18">
+                            <router-link :to="targetUrl+daki.id" >
+                                <img class="dakiThumbnail" :alt="daki.name" :src="thumbnailUrl+daki.image">
+                            </router-link>
+                            <div class="dakiName">
+                                <label>
+                                    {{daki.name}}
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
